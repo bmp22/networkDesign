@@ -1,0 +1,25 @@
+Package: networkDesign
+Title: Design of Experiments for Networks
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Ben",
+           family = "Parker",
+           role = c("aut", "cre"),
+           email = "stats@ben-parker.co.uk",
+           comment = structure("0000-0002-6858-8336", .Names = "ORCID"))
+Description: This package implements design of experiments for networks as introduced by Parker, Ben M., Steven G. Gilmour, and John Schormans. "Optimal design of experiments on connected units with application to social networks." Journal of the Royal Statistical Society: Series C (Applied Statistics) 66.3 (2017): 455-480.).
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.0.2
+Imports:
+    stats,
+    utils,
+    igraph
+Depends:
+    R (>= 2.10)
+Suggests: 
+    testthat (>= 2.1.0),
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
