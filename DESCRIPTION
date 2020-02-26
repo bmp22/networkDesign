@@ -23,3 +23,5 @@ Suggests:
     knitr,
     rmarkdown
 VignetteBuilder: knitr
+URL: http://github.com/bmp22/networkDesign
+BugReports: http://github.com/bmp22/networkDesign/issues
