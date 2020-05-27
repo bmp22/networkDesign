@@ -4,10 +4,11 @@
 \alias{bigNetworkSearch}
 \title{For a big network, apply treatments to a subset and search}
 \usage{
-bigNetworkSearch(A, treatments, sampleSize, restartProb = 0, numIterations)
+bigNetworkSearch(A, treatments, sampleSize, restartProb = 0,
+  numIterations)
 }
 \arguments{
-\item{A}{adjacency Matrix or the network}
+\item{A}{adjacency Matrix of the network}
 
 \item{treatments}{number of treatments to search over}
 
@@ -19,10 +20,6 @@ balanced designs.}
 \item{numIterations}{How many iterations to use in the exchange algorithm}
 }
 \description{
-For a big network with adjacency matrix A, with maximum number of subjects
-we can test numtest, try and find a desing by a Fedorov-exchange type
- algorithm
-The restartProb parameter (default 0) gives the probability of
- starting from a random restart. Set to 1 to evaluate random
-balanced designs.
+For a big network where we can apply treatments to a subset of them, find the optimal
+design using a Fedorov exchange type algorithm.
 }

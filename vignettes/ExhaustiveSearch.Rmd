@@ -11,12 +11,12 @@ vignette: >
 This vignette explains a few simple examples on the package `networkDesign` which allows optimal design of experiments on networks under a particular model. All the examples are taken from our research paper "Optimal Design of Experiments on Connected Units with Application to Social Networks" <link>https://doi.org/10.1111/rssc.12170
 ([preprint](https://eprints.soton.ac.uk/383913/1/socialNetworksJRSSCv4-EditorsResponse.pdf))
 
-Tha aim of the vignette is really to provide the means for users to reproduce the results in that paper, and extend them to their own work. This vignette, and indeed the whole package, is very much a draft, and suggestions for changes/improvements are welcomed.
+The aim of the vignette is really to provide the means for users to reproduce the results in that paper, and extend them to their own work. This vignette, and indeed the whole package, is very much a draft, and suggestions for changes/improvements are welcomed.
 
 ### Summary of theory
 Consider a simple network as shown in the image. Nodes 1,2,3, and 4 represent people in a network, and we wish to show an advert to each of them.
 
-![A simple network](/home/bbbp006/Dropbox/Talks/figures/SimpleNetwork.png){#id .class width=250px}
+![A simple network](/home/bmp22/Dropbox/Talks/figures/SimpleNetwork.png){#id .class width=250px}
   
 
 The idea behind the model is that if a treatment is given to subject 2, connections of subject 2 might be affected by the treatment, and their response might be altered because of the treatment I gave to subject 1. 
@@ -24,7 +24,7 @@ The idea behind the model is that if a treatment is given to subject 2, connecti
 The total effect on subject 1 is determined by whatever treatment I give to subject 1 himself, plus an effect due to the treatment I gave to subject 2.
 
 
-This is formalisedthe **Linear network effect model**:
+This is formalised in the **Linear network effect model**:
 
 $Y_i= \mu+\tau_{t(i)} +\sum_{k=1}{A_{ik}\gamma_{t(k)}}+\epsilon_i$
 
@@ -67,17 +67,19 @@ E(g1)$arrow.mode<-0
 plot.igraph(g1,edge.arrow.size=0.4, vertex.size=30,layout=l)
 ```
 
-Nex, we search through all possible designs to find the design which is best. 
+Next, we search through all possible designs to find the design which is best. 
 
 ```{r}
 gridSearch(ex1,2)
+
+gridSearch(ex1,2, networkEffects = TRUE)
 ```
 There are two possible things we might wish to do
 
-* estimate the difference between treatment effects, $\tau_i$ with minimum  variance.
-* estimate the difference between network effects, $\gamma_i$ with minimum variance.
+* estimate the pariwise difference between treatment effects, $\tau_i$ with minimum  variance.
+* estimate the pairwise difference between network effects, $\gamma_i$ with minimum variance.
 
-`gridSearch` with no parameters specified will perform an exhaustive search through every design, and find the best design according to both of these criteria. The output shows the value of the A criterion optimal function value for estimating the treatment effects, and the optimal design, followed by the A criterion optimal design function value for the network effects, the corresponding optimal design, and the number of evaluations done for this. The design is such that we should give treatment 1 to nodes with a 1 in the first column (1,2,3,6,8,9) and treatment 2 to nodes (4,5,7,10). 
+`gridSearch` with no parameters specified will perform an exhaustive search through every design, and find the best design according to the first of these criteria. Adding 'networkEffexts=TRUE' The output shows the value of the A criterion optimal function value for estimating the treatment effects, and the optimal design, followed by the A criterion optimal design function value for the network effects, the corresponding optimal design, and the number of evaluations done for this. The design is such that we should give treatment 1 to nodes with a 1 in the first column (1,2,3,6,8,9) and treatment 2 to nodes (4,5,7,10). 
 
 ### Example 2
 We can do the same for a second example network, which is a slightly more strongly connected network.
@@ -88,11 +90,12 @@ l <- layout_in_circle(g2)
 E(g2)$arrow.mode<-0
 plot.igraph(g2,edge.arrow.size=0.4, vertex.size=30,layout=l)
 gridSearch(JRSSExamples$ex2,2)
+gridSearch(JRSSExamples$ex2,2, networkEffects = TRUE)
 ```
 
 ### Calculating Efficiencies
 
-We showed (in Section 4.1 of the research paper) that if the Linear Network Effects model were correct, but we ignored it in the design, then we would adopt a Completely Randomized design. For example, for m=2 treatements, we would, at random, give half of our experimental units the first treatment, and half the second.
+We showed (in Section 4.1 of the research paper) that if the Linear Network Effects model were correct, but we ignored it in the design, then we would adopt a Completely Randomized design. For example, for m=2 treatments, we would, at random, give half of our experimental units the first treatment, and half the second.
 
 Here, for each of ten random Erdős-Renyi networks of size $n=12$, we demonstrate the efficiency of the (incorrect) completely randomised design with respect to the optimal design of the network.
 
@@ -105,7 +108,7 @@ numNetworks<-10 # Number of Networks to investigate
 effList<-NULL
 
 for(i in 1:numNetworks){   # For each of numNetworks random networks
-ASec4<-as_adjacency_matrix(sample_gnp(n,prob))   # Generate an Erdos-Renyi network
+ASec4<-as.matrix(as_adjacency_matrix(sample_gnp(n,prob)))   # Generate an Erdos-Renyi network
 AOptSec4 <- gridSearch(ASec4,p)   # Find the optimal design
 
 efficiencies<-NULL # Initiate list of efficiencies 
@@ -225,9 +228,11 @@ l <- layout_in_circle(g3)
 E(g3)$arrow.mode<-0
 plot.igraph(g3,edge.arrow.size=0.4, vertex.size=20,layout=l)
 ### Find the optimal design
-ex3.Opt<-gridSearch(ex3,p=2)
-ex3.Opt$AOptVal
-ex3.Opt$AOptNetVal
+ex3.opt<-gridSearch(ex3,p=2)
+ex3.opt$AOptVal
+ex3.net<-gridSearch(ex3,p=2, networkEffects = TRUE)
+ex3.net$AOptVal
+
 ```
 If our linear network effects model is true, we find $\phi_1^*=0.2002$. 
 The bottom number in each node shows the optimal design for $\phi_2$ for estimating the network effect (the viral effect of the advert), with $\phi_2^*=0.0284$. 
@@ -236,9 +241,9 @@ The bottom number in each node shows the optimal design for $\phi_2$ for estimat
  we get a very slightly different output)
 ```{r, cache=TRUE}
 diag(ex3)<-0
-ex3.Opt<-gridSearch(ex3,2)
-ex3.Opt$AOptVal
-ex3.Opt$AOptNetVal
+ex3.opt<-gridSearch(ex3,2)
+ex3.opt$AOptVal
+
 ```
 
 #### Example 4: Field Trials
@@ -261,7 +266,7 @@ ex4.opt$AOptVal
 ### Now plot the graph
 g4<-graph_from_adjacency_matrix(ex4)
 l <- layout_in_circle(g4)
-
+E(g4)$arrow.mode<-0
 ### Plot the network with different nodes coloured according to which treatment they receive.
 plot(graph_from_adjacency_matrix(ex4),vertex.color=ex4.des,layout=l)
 ```
@@ -309,6 +314,7 @@ ex5.opt$AOptVal
 ### Now plot the graph
 g5<-graph_from_adjacency_matrix(ex5A)
 l <- layout_in_circle(g5)
+E(g5)$arrow.mode<-0
 plot(graph_from_adjacency_matrix(ex5A),vertex.color=ex5.des,layout=l)
 ```
 
@@ -323,7 +329,7 @@ wash-out time of one
 period. Assume further that it becomes clear that participant b will not be
 able to take the treatment in the third period of the trial. This is represented as
 
-![A crossover trual](/home/bbbp006/Dropbox/Talks/figures/example6nakedv3.png){#id .class width=250px}
+![A crossover trual](/home/bmp22/Dropbox/Talks/figures/example6nakedv3.png){#id .class width=250px}
 
 We use each subject/period combination as a node in our network, and we modify our methodology such that links are uni-directional by relaxing the restriction that $A$ is symmetric; our Linear Network Effects Model
 in Equation (\ref{eq:linearNetworkEffects}) is still valid, and we perform an
@@ -338,6 +344,7 @@ ex6.opt$AOptVal
 ### Now plot the graph
 g6<-graph_from_adjacency_matrix(ex6A)
 l <- layout_in_circle(g6)
+E(g6)$arrow.mode<-0
 plot(graph_from_adjacency_matrix(ex6A),vertex.color=ex6.des,layout=l)
 ```
 

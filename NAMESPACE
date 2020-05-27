@@ -3,6 +3,6 @@
 export(bigNetworkSearch)
 export(evaluateNetworkDesign)
 export(gridSearch)
+export(gridSearchOld)
 export(informationMat)
-export(informationMatFull)
 export(nextDesign)

@@ -9,7 +9,7 @@ evaluateNetworkDesign(infMatrix, p)
 \arguments{
 \item{infMatrix}{An information Matrix}
 
-\item{p}{number of treatmentsp}
+\item{p}{number of treatments}
 }
 \description{
 Calculate the optimality criteria (A_s optimality) for a given network design

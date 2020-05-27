@@ -4,12 +4,15 @@
 \alias{informationMat}
 \title{Calculate Information Matrix}
 \usage{
-informationMat(A, X)
+informationMat(A, X, setToZero = 1)
 }
 \arguments{
 \item{A}{An adjacency Matrix}
 
 \item{X}{design matrix}
+
+\item{setToZero}{we may insist that we delete the row corresponding to the last treatment effect
+for identifiability, equivalent to setting that to be zero. setToZero=1 means we do this.}
 }
 \description{
 Calculates the information matrix for a given adjacency matrix and design
