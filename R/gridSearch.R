@@ -18,7 +18,7 @@ gridSearch<-function(A,p,isomorphisms=FALSE, blockList=NULL, ignoreLastNode=FALS
   b<-length(blockList) # How many blocks
   AOptVal<-Inf #
   AOptDesign<-NULL
-  numEval<-0
+  numEval<-0 # How many designs we have evaluated
 
   if (b>0) {specialNodes<-c((p+1):(p+b)) # For compatibility- delete later
   }
@@ -37,8 +37,7 @@ gridSearch<-function(A,p,isomorphisms=FALSE, blockList=NULL, ignoreLastNode=FALS
   A<-B
 
   #### Set parameters for coordinate exchange algorithm
-  trialCE<-2 # Start with the second node. Without loss of generality the first node's treatment can be fixed.
-  numTrialsCE<-0
+ # numTrialsCE<-0
   lastCEWin<-0
   numCERandStarts<-100 # How many random starts we do: TODO- put in parameters
 
@@ -126,7 +125,7 @@ gridSearch<-function(A,p,isomorphisms=FALSE, blockList=NULL, ignoreLastNode=FALS
       # and then 2m parameters
       infMatrix<-infMatrix[-setToZero,-setToZero] # Inf matrix reduced just for the non-zero effects
       if ((determinant(infMatrix)$modulus)>-10){ # If the matrix is invertible
-        numEval<-numEval+1;
+
         invInfMatrix<-solve(infMatrix,tol=1e-21)
 
         ##ATrial<-mean(diag(invInfMatrix)[newOptVars])  # This is A-optimality criteria, not pairwise.
@@ -149,20 +148,21 @@ gridSearch<-function(A,p,isomorphisms=FALSE, blockList=NULL, ignoreLastNode=FALS
           AOptVal<-ATrial
           AOptDesign<-testWeight
           AOptTest<-testDesign
-          lastCEWin<-numTrialsCE
+          lastCEWin<-numEval
           }
       }
     }# End evaluate if a valid design
 
-    numTrialsCE<-numTrialsCE+1 # How many trials have we had without success.
+  #  numTrialsCE<-numTrialsCE+1 # How many trials have we had - counter for CE algorithm.
+numEval<-numEval+1
 
     ### Now pick the next design
     if ((algorithm=="sequential") | (algorithm=="random")){
-     testDesign<-c(nextDesign(testDesign[1:n],p,algorithm=algorithm,par=trialCE))
+     testDesign<-c(nextDesign(testDesign[1:n],p,algorithm=algorithm,par=numEval))
      }
 
      if (algorithm=="CE") {
-        testDesign<-nextCEDesign(AOptTest[1:n],p,numTrialsCE)
+        testDesign<-nextDesign(AOptTest[1:n],p,par=numEval)
     }
 
     # Add on again the special block nodes which are fixed
@@ -171,7 +171,7 @@ gridSearch<-function(A,p,isomorphisms=FALSE, blockList=NULL, ignoreLastNode=FALS
     # Stop if we've reached a stop criterion
     if (length(testDesign)!=(n+b)){stopCriterion<-TRUE}
     if ((algorithm=="random") && (numEval == 100 )){stopCriterion<-TRUE}
-    if ((algorithm=="CE") && ((numTrialsCE-lastCEWin)>(n)*(p-1))){
+    if ((algorithm=="CE") && ((numEval-lastCEWin)>(n)*(p-1))){
       if (numCERandStarts>0){
         testDesign<-c(1,nextDesign(testDesign[1:(n-1)],p,algorithm="random"),specialNodes)
         numCERandStarts<-numCERandStarts-1

@@ -10,7 +10,6 @@
 nextDesign<-function(design,k,algorithm="sequential",par=NULL){
   n<-length(design)
   if (algorithm=="sequential"){
-
     if(n==1){
       design<-NULL
     }
@@ -31,11 +30,18 @@ nextDesign<-function(design,k,algorithm="sequential",par=NULL){
   if (algorithm=="random"){
     nextDesign<-sample(1:k, size=n, replace=TRUE)
   }
-  if (algorithm=="CE"){
-    nextDesign<-design
-    nextDesign[par]<-(design[par]+1)
-    if(nextDesign[par]>k){nextDesign[par]<-1}
 
+  if (algorithm=="CE"){
+    CECount<-par
+    startDesign<-design
+    if (CECount<=0){return(startDesign)}
+    n<-length(startDesign)
+    startDesign<-startDesign-rep(1,n) # Take from 1->n notation to 0->n-1 for nicer modular arithmetic
+    varToChange<-(((CECount-1)%/%(p-1))%%n)+1  #
+    amountToChange<-(CECount-1)%%(p-1)+1
+    startDesign[varToChange]<-(startDesign[varToChange]+amountToChange)%%p
+
+    return(startDesign+rep(1,n))
   }
   return(nextDesign)
 }

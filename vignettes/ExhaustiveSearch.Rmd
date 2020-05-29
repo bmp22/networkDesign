@@ -1,6 +1,6 @@
 ---
 title: "Designing Experiments on Networks"
-output: rmarkdown::html_vignette
+output: pdf_document
 vignette: >
   %\VignetteIndexEntry{ExhaustiveSearch}
   %\VignetteEngine{knitr::rmarkdown}
@@ -8,10 +8,10 @@ vignette: >
 ---
 
 ### Introduction
-This vignette explains a few simple examples on the package `networkDesign` which allows optimal design of experiments on networks under a particular model. All the examples are taken from our research paper "Optimal Design of Experiments on Connected Units with Application to Social Networks" <link>https://doi.org/10.1111/rssc.12170
+This vignette explains a few simple examples on the package `networkDesign` which allows optimal design of experiments on networks under a particular model. All the examples are taken from our research paper "Optimal Design of Experiments on Connected Units with Application to Social Networks"> <link>https://doi.org/10.1111/rssc.12170
 ([preprint](https://eprints.soton.ac.uk/383913/1/socialNetworksJRSSCv4-EditorsResponse.pdf))
 
-The aim of the vignette is really to provide the means for users to reproduce the results in that paper, and extend them to their own work. This vignette, and indeed the whole package, is very much a draft, and suggestions for changes/improvements are welcomed.
+The aim of the vignette is to provide the means for users to reproduce the results in that paper, and extend them to their own work. This vignette, and indeed the whole package, is very much a draft, and suggestions for changes/improvements are welcomed.
 
 ### Summary of theory
 Consider a simple network as shown in the image. Nodes 1,2,3, and 4 represent people in a network, and we wish to show an advert to each of them.
@@ -159,12 +159,12 @@ for (j in (1:10)){
 trialInfMatrix<-informationMat(ex1,testWeight);
 designEval<-evaluateNetworkDesign(trialInfMatrix,2)
 example1Opt<-gridSearch(ex1,2)
-
+example1OptNet<-gridSearch(ex1,2,networkEffects = TRUE)
 # Efficiency for phi1
 1/(designEval$ATrial/example1Opt$AOptVal)
 
 ##Efficiency for phi2
-1/(designEval$ATrialNet/example1Opt$AOptNetVal)
+1/(designEval$ATrialNet/example1OptNet$AOptVal)
 ```
 
 
@@ -329,7 +329,7 @@ wash-out time of one
 period. Assume further that it becomes clear that participant b will not be
 able to take the treatment in the third period of the trial. This is represented as
 
-![A crossover trual](/home/bmp22/Dropbox/Talks/figures/example6nakedv3.png){#id .class width=250px}
+![A crossover trial](/home/bmp22/Dropbox/Talks/figures/example6nakedv3.png){#id .class width=250px}
 
 We use each subject/period combination as a node in our network, and we modify our methodology such that links are uni-directional by relaxing the restriction that $A$ is symmetric; our Linear Network Effects Model
 in Equation (\ref{eq:linearNetworkEffects}) is still valid, and we perform an
@@ -368,7 +368,7 @@ As our network of $n=10000$ does not allow us to perform an exhaustive search, w
 
 We have encoded these two methods in the `bigNetworkSearch` function.
 
-```{r}
+```{r Example 7}
 # Select 100 nodes to be given a treatment and find the best design using
 # 1) exchange algorithm and
 numIterations<-100
@@ -394,7 +394,9 @@ We make a similar plot for $\phi_2$.
 ylimNetMin<-min(min(log(y0$runningAOptNetVal),log(y1$runningAOptNetVal)))
 ylimNetMax<-max(max(log(y0$runningAOptNetVal),log(y1$runningAOptNetVal)))
 
-plot(log(1:numIterations),log(y0$runningAOptNetVal),ylim=c(ylimNetMin,ylimNetMax),xlab="log(Iteration Number)",ylab="log(phi_2)")
+plot(log(1:numIterations),log(y0$runningAOptNetVal),ylim=c(ylimNetMin,ylimNetMax),
+     xlab="log(Iteration Number)",ylab="log(phi_2)")
 points(log(1:numIterations),log(y1$runningAOptNetVal),pch="+",col="red")
-legend(0.6*log(numIterations),ylimNetMax,c("Exchange","Random"),pch=c("o","+"),col=c("black","red"),text.col=c("black","red"))
+legend(0.6*log(numIterations),ylimNetMax,c("Exchange","Random"),
+       pch=c("o","+"),col=c("black","red"),text.col=c("black","red"))
 ```
