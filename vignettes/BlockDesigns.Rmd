@@ -1,0 +1,123 @@
+---
+title: "Designing Experiments on Networks"
+output: pdf_document
+vignette: >
+  %\VignetteIndexEntry{ExhaustiveSearch}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+### Introduction
+This vignette explains how to more efficiently use the package `networkDesign` which allows optimal design of experiments on networks under a particular model. Here, we explain how to use isomorphisms (symmetries) in the network to speed up the time to design networks, and how this can be applied to designs with blocking.
+
+
+  
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+### Getting Started
+Let us first load the required package `igraph` and then this package `networkDesign`. All the examples are in the data file `JRSSExamples`
+```{r Load Required Packages, message=FALSE, warning=FALSE }
+library(igraph)
+library(networkDesign)
+attach(JRSSExamples)
+```
+
+The first command plots the graph (for more on network visualisation see the tutorial <here>https://kateto.net/network-visualization )
+```{r Plot the Graph}
+g4<-graph_from_adjacency_matrix(ex4)
+l<-cbind(c(rep(c(0,1,2),4)),sort(rep(c(0,1,2,3),3)))
+E(g4)$arrow.mode<-0
+plot.igraph(g4,edge.arrow.size=0.4, vertex.size=20,layout=l)
+```
+This graph represents an agricultural experiment where we have 12 plots in four rows in a field; the plots are shown as connected so that if we apply an experimental treatment (such as a fertiliser) on one node, it spreads to its neighbours. 
+
+Let us first find the optimal design for this network if we want to find which design is best for $p=3$ treatments for our Linear Network Effects model:
+```{r Exhaustive Search}
+gridSearch(ex4,p=3,isoSearch=FALSE)
+```
+This shows us that an optimal design is to give nodes 1 to 12 treatments (1, 1, 2, 1, 2, 2, 1, 3, 3, 3, 2, 3). However, there are two sets of symmetries here:
+
+* Symmetry of labels: The numbering of the treatments is not unique, in that we can swap the labels 1 and 2 (we are only interested in differences between treatments in our model)
+* Symmetry in nodes: Clearly we could swap as a group the treatments given to nodes 1,2, and 3, with the group given to 4,5,6. This network is an *isomorphism* of our first network.
+
+
+For this network, we can count the number of isomorphisms there are: networks where by relabelling the nodes, we get the same network. We use the 'igraph' package in R.
+
+```{r Number of isomorphisms}
+count_isomorphisms(g4,g4)
+```
+
+Our design algorithm is a complete search- as we have $p=3$ treatments, and $n=12$ nodes, we have to consider all ways we can colour a graph with 12 nodes and 3 colours; without loss of generality, the first node is labeled 1, and the second node must be either 1 or 2 (the 'gridsearch' algorithm by default uses symmetry of labels), and in general we evaluate all designs where the first occurrence of label $i$ occurs before the first occurrence of label $i+1$, andso we have a large number of designs which can be evaluated. For this example, the 'numFunEval' is 86523.
+
+We can ask 'gridSearch' to search for isomorphisms before doing the search, and only evaluate designs which are isomorphic once. 
+
+```{r Sear}
+gridSearch(ex4,p=3,isoSearch=TRUE)
+```
+We fortunately get the same result, but the number of function evaluations is much slower.
+
+For finding the design, the function evaluation is the slow part (in involves inverting a $(2p+1)\times(2p+1)$ matrix), so the design search can be sped up by evaluating fewer designs. However, to find isomorphisms in the first place requires some time, so we do not get a free lunch.
+
+We can use some profiling in R to find out how much time we save in this simple example.
+
+```{r Profiling}
+Rprof(tmp <- tempfile())
+d1<-gridSearch(ex4,p=3,isoSearch=FALSE)
+Rprof()
+Rprof(tmp2 <- tempfile())
+d2<-gridSearch(ex4,p=3,isoSearch=TRUE)
+d1$numFunEval
+d2$numFunEval
+d1$AOptVal==d2$AOptVal # Check designs found are the same
+Rprof()
+
+
+summaryRprof(tmp)$sampling.time
+summaryRprof(tmp2)$sampling.time
+```
+Thus we see that the search here takes a little bit less time (about half), but there are significantly fewer function evaluations. This time saving varies with the network size $n$, the number of treatments $p$, and the number of isomorphisms $z$.
+
+
+###Block Designs
+Often our experimental units are grouped in blocks, where experimental units in the same block all experience a common block effect. Often this is a nuisance effect that we do not wish to estimate.
+
+This is formalised in the **randomised block model**:
+
+$Y_{ij}= \mu+\tau_{t(i)} +b_j+\epsilon_{ij}$
+
+Experimental unit $i$ in block $j$ is given treatment $t(i)$, experiences a treatment effect $\tau_t(i)$, and a block effect $b_j$. Various assumptions are made about the errors $\epsilon_{ij}$, but we can assume for now that they are independently normally distributed with common variance.
+
+We can also represent block designs as networks, so our algorithm can be used for finding block designs. We specify the blocks in the 'blocklist' argument by a list, each element of which identifies the nodes within the block.
+
+```{r}
+A<-matrix(rep(0,9*9),nrow=9) # 9 nodes which are not connected in any way
+gridSearch(A,p=3,isoSearch=TRUE, blockList=list(c(1,2,3),c(4,5,6),c(7,8,9)),
+           ignoreLastNode=FALSE)
+```
+Thus the optimal design for this is given by
+| 1 2 3 |
+| 1 2 3 |
+| 1 2 3 |
+as we expect.
+
+We can also find the optimal designs for multiply-blocked experiments, such as row-column designs. With multiply defined blocks, we usually have the problem that the blcok effects are not-identifiable, and that we must impose a further constraint. Without loss of generality, we do this here by setting the 'ignoreLastNode' parameter to 'TRUE', which forces the last block in the list to have effect zero. As we are interested in the difference between treatment effects, this does not effect out design.
+
+
+```{r}
+A<-matrix(rep(0,9*9),nrow=9) # 9 nodes which are not connected in any way
+gridSearch(A,p=3,isoSearch=TRUE, blockList=list(c(1,2,3),c(4,5,6),c(7,8,9),
+                                                c(1,4,7),c(2,5,8),c(3,6,9)),ignoreLastNode=TRUE)
+```
+Thus the optimal design for this is given by
+| 1 2 3 |
+| 2 3 1 |
+| 3 1 2 |
+which is a Latin Square of size 3, as we expect.
+
+Of course, these are simple examples; more complicated examples are possible with the package.
