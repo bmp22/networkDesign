@@ -74,6 +74,9 @@ gridSearch(ex1,2)
 
 gridSearch(ex1,2, networkEffects = TRUE)
 ```
+This tells us that an optimal design is to give treatment 1 to units 1,2,3,7,8,9 and treatement 2 to the others, units 4,5,6 and 10. ( Note this does not tell us that this is the only design which is optimal- 'gridSearch' will produce just the first optimal design. For example, swapping over all treatments 1 for treatment 2 and vice versa will give us the same optimal design.)
+
+
 There are two possible things we might wish to do
 
 * estimate the pariwise difference between treatment effects, $\tau_i$ with minimum  variance.

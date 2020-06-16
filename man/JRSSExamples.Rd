@@ -4,11 +4,13 @@
 \name{JRSSExamples}
 \alias{JRSSExamples}
 \title{Example Networks For Demonstrating Experimental Design}
-\format{Examples of Adjacency Matrices.
+\format{
+Examples of Adjacency Matrices.
 \describe{
   \item{JRSSExamples}{A list containing all the Examples for simple networks from the JRSSC Paper}
   #'  ...
-}}
+}
+}
 \source{
 \url{https://doi.org/10.1111/rssc.12170}
 }

@@ -1,29 +1,32 @@
-# TODO- rewrite CE algorithm
-#' Search over all possible designs to find the global optimal
+#' Find the optimal design for a given network.
 #'
-#' Evaluates all possible designs by searching over a grid to find a global optimal. Can be slow for high A>20 or high p>2
+#' Finds the optimal design for a given network. Various algorithms are implemented to search a network to find the optimal design for.
+#' estimating treatment effects on that network. It can also be used to find optimal designs for experiments that contain blocking.
+#' Can be slow for high A>20 or high p>2.
+#'
 #' @param A An adjacency matrix
 #' @param p The number of treatments in the experiment
-#' @param isomorphisms Whether to ignore designs that are isomorphic to designs evaluated earlier
-#' @param ignoreLastNode Whether we set the last node as zero. Can be useful to satisfy constraints in double blocking structures
-#' @param algorithm Which algorithm to use for finding which designs to evaluate; currently 'sequential', 'random' and 'ce' are implemented
-#' @param specialNodes Are there any nodes which are fixed that we don't want to apply treatments to.
-#' @param networkEffects Should the optimal design for the network effects be found (default is to find direct effects)
+#' @param isoSearch Whether to ignore designs that are isomorphic to designs evaluated earlier
+#' @param ignoreLastNode Whether we set the last node as zero. Set to true to satisfy constraints in double blocking structures
+#' @param algorithm Which algorithm to use for finding which designs to evaluate; currently 'sequential', 'random' and 'ce' and exchange are implemented
+#' @param blockList A list. each element of which is a collection of nodes which form a block.
+#' @param networkEffects Set to true if the optimal design for the network effects be found (default is to find direct effects)
 #' @keywords For a given adjacency matrix, find the optimal design with p treatments.
 #' @export
 #'
-gridSearch<-function(A,p,isomorphisms=FALSE, blockList=NULL, ignoreLastNode=FALSE, algorithm="sequential",networkEffects=FALSE){
+gridSearch<-function(A,p,isoSearch=FALSE, blockList=NULL, ignoreLastNode=FALSE, algorithm="sequential",networkEffects=FALSE){
   ### Initiate parameters
+  if (!is.matrix(A)){stop("A must be a matrix")}
   n<-dim(A)[1] # How many experimental units
   b<-length(blockList) # How many blocks
   AOptVal<-Inf #
   AOptDesign<-NULL
   numEval<-0 # How many designs we have evaluated
+  numFunEval <- 0 # How many times we evaluated the information matrix
 
-  if (b>0) {specialNodes<-c((p+1):(p+b)) # For compatibility- delete later
-  }
-  else
-  {specialNodes<-NULL}
+  if (b>0) { # If we have block des
+    specialNodes<-c((p+1):(p+b))
+    } else   {specialNodes<-NULL}
 
   ## Make a copy of A, and expand, then add block structure to network
   B<-matrix(0,ncol=(n+b),nrow=(n+b))
@@ -37,53 +40,71 @@ gridSearch<-function(A,p,isomorphisms=FALSE, blockList=NULL, ignoreLastNode=FALS
   A<-B
 
   #### Set parameters for coordinate exchange algorithm
- # numTrialsCE<-0
   lastCEWin<-0
-  numCERandStarts<-100 # How many random starts we do: TODO- put in parameters
+  numCERandStarts<-10 # How many random starts we do: TODO- put in parameters
 
   ### Work out isomorphisms of the network if we are using them
   z<- NULL
-  if (isomorphisms==TRUE){
+  if (isoSearch==TRUE){
     ex1Igraph<-igraph::graph_from_adjacency_matrix(A)
-    z<-isomorphisms(ex1Igraph,ex1Igraph) # Can this be faster in some other routine
+    z<-igraph::isomorphisms(ex1Igraph,ex1Igraph) # Can this be faster in some other routine
     numIso<-length(z)
   }
   else{
-    z[[1]]<-rep(1:n)
+    z[[1]]<-rep(1:(n+b))
     numIso<-1
   }
-  zReduced<-lapply(z, function(z) utils::head(z, n))
 
-  ### For use in testing if a design is valid
-  mult<-NULL
-  for (i in (1:(n))){
-    mult[i]<-p^((n)-i) #Todo: change for really big p
-  }
+  #zReduced<-lapply(z, function(z) utils::head(z, n+b))
+  zUnlist<-matrix(unlist(z),ncol=(n+b),byrow = TRUE)
 
-# Thest whether a design is valid-
-  testValidDesign<-function(td){
-    x<-(match(c(1:p),td))
-    if (anyNA(x)){return(FALSE)}
-    if ((all(sort(x)==x))==FALSE){return(FALSE)} # Check whether design has elements 1:p with first
-    # occurrence of k occurring before first occurrence of k+1
-    tdm<-sum(td*mult)
 
+
+  ### Test whether a design is valid- this is slightly faster but less robust.
+  # mult<-NULL
+  # # TODO n or n+b below
+  # for (i in (1:(n+b))){
+  #   mult[i]<-p^((n+b)-i) #Todo: change for really big p
+  # }
+
+  # testValidDesign<-function(td){
+  #   x<-(match(c(1:p),td))
+  #   if (anyNA(x)){return(FALSE)}
+  #   if ((all(sort(x)==x))==FALSE){return(FALSE)} # Check whether design has elements 1:p with first
+  #   # occurrence of k occurring before first occurrence of k+1
+  #   tdm<-sum(td*mult)
+  #   if (isoSearch==TRUE){
+  #   for (i in (2:numIso)){
+  #     if(tdm>sum(td[zUnlist[i,]]*mult)){return(FALSE)}  # Check whether design is  first in lexicographic order
+  #   }
+  #   }
+  #   return(TRUE)
+  # }
+
+ # Test whether a design is valid
+  mult2<-(2^(c((n+b):1)))
+ testValidDesign<-function(td){
+  x<-(match(c(1:p),td))
+  if (anyNA(x)){return(FALSE)}
+  if ((all(sort(x)==x))==FALSE){return(FALSE)} # Check whether design has elements 1:p with first
     for (i in (1:numIso)){
-      if(tdm>sum(td[zReduced[[i]]]*mult)){return(FALSE)}  # Check whether design is  first in lexicographic order
+    if (sum(sign(td[zUnlist[i,]]-td)*mult2)<0){return(FALSE)}
     }
-    return(TRUE)
-  }
-
+  return(TRUE)
+}
 
   # Pick a starting design. Initiate the design so that 1s on all real nodes, and each block
   # gets a special treatment
+
   if (b>0){testDesign<-c(rep(1,n),c((p+1):(p+b)))} else {testDesign<-c(rep(1,n))}
 
-  # For the CE algorithm, pck a random starting design instead
-  if (algorithm=="CE"){testDesign<-c(1,sample(((1:(n-1))%%p+1),size=(n-1),replace=FALSE))
+  # For the CE or exchange algorithm, pick a random starting design instead
+  if ((algorithm=="CE")|(algorithm=="exchange")){testDesign<-c(1,sample(((1:(n-1))%%p+1),size=(n-1),replace=FALSE))
   AOptTest<-testDesign
   if (b>0){testDesign<-c(testDesign,c((p+1):(p+b)))}
   }
+
+  oldDesign<-testDesign # For exchange algorithm
 
   # For block designs, we generally set the treatment effect of the last treatment to zero, and
   # set all the direct effects of the blocks to zero
@@ -91,10 +112,12 @@ gridSearch<-function(A,p,isomorphisms=FALSE, blockList=NULL, ignoreLastNode=FALS
   # such as the last to zero
   if (ignoreLastNode==FALSE){
     setToZero<-c((p+1):(2*p+b+1))
+    optVars<-c(2:(p+1))
   }
   else
   {
     setToZero<-c((p+1):(2*p+b+1),2*p+2*b+1)
+    optVars<-c(2:(p+1))
   }
 
   # For non-blocked designs, set the last treatment to be zero for identifiability.
@@ -115,7 +138,7 @@ gridSearch<-function(A,p,isomorphisms=FALSE, blockList=NULL, ignoreLastNode=FALS
   ### Now the main loop- keep going until we stop at some point
   stopCriterion<-FALSE
   while (stopCriterion==FALSE){
-    if  (testValidDesign(testDesign[1:(n)])){
+    if  (testValidDesign(testDesign[1:(n+b)])){
       testWeight<-matrix(rep(0,((n+b)*(p+b))),nrow=(n+b))
       for (j in 1:(n+b)){
         testWeight[j,testDesign[j]]<-1
@@ -126,7 +149,12 @@ gridSearch<-function(A,p,isomorphisms=FALSE, blockList=NULL, ignoreLastNode=FALS
       infMatrix<-infMatrix[-setToZero,-setToZero] # Inf matrix reduced just for the non-zero effects
       if ((determinant(infMatrix)$modulus)>-10){ # If the matrix is invertible
 
-        invInfMatrix<-solve(infMatrix,tol=1e-21)
+        ## Various different ways to get inverse of information matrix, but as it is positive definite the Cholesky Decomposition
+        ## Seems about 10% faster.
+
+        #invInfMatrix<-solve(infMatrix,tol=1e-21)
+        #invInfMatrix<-pd.solve(infMatrix)
+        invInfMatrix<-chol2inv(chol(infMatrix))
 
         ##ATrial<-mean(diag(invInfMatrix)[newOptVars])  # This is A-optimality criteria, not pairwise.
 
@@ -151,10 +179,10 @@ gridSearch<-function(A,p,isomorphisms=FALSE, blockList=NULL, ignoreLastNode=FALS
           lastCEWin<-numEval
           }
       }
+      numFunEval<-numFunEval+1
     }# End evaluate if a valid design
 
-  #  numTrialsCE<-numTrialsCE+1 # How many trials have we had - counter for CE algorithm.
-numEval<-numEval+1
+  numEval<-numEval+1 # Counter for CE Algorithm
 
     ### Now pick the next design
     if ((algorithm=="sequential") | (algorithm=="random")){
@@ -165,35 +193,42 @@ numEval<-numEval+1
         testDesign<-nextDesign(AOptTest[1:n],p,par=numEval)
     }
 
+    if (algorithm=="exchange"){
+      if ((numEval==(lastCEWin+1))|runif(1)<0.01){ #If we have found an improvement
+      oldDesign<-testDesign # Update the design
+      if (runif(1)<0.3){
+        testDesign[sample(2:n,1)]<-sample(1:p,1)
+      }else{
+        a<-sample(2:n,2)
+        testDesign[a]<-testDesign[rev(a)]
+      }
+      }else{
+        testDesign<-oldDesign # revert to the previous design
+        if (runif(1)<0.001){
+        testDesign<-sort(c(1:p,nextDesign(testDesign[1:(n-p)], p ,algorithm="random"),specialNodes))
+        }
+        }
+    #  cat(numEval," ",testDesign,"\n")
+    }
     # Add on again the special block nodes which are fixed
     if (b>0) {testDesign<-c(testDesign,c((p+1):(p+b)))}
 
-    # Stop if we've reached a stop criterion
+    ### Stop if we've reached a stop criterion
     if (length(testDesign)!=(n+b)){stopCriterion<-TRUE}
-    if ((algorithm=="random") && (numEval == 100 )){stopCriterion<-TRUE}
+    if (((algorithm=="random")|(algorithm=="exchange")) && (numEval == 10000 )){stopCriterion<-TRUE}
     if ((algorithm=="CE") && ((numEval-lastCEWin)>(n)*(p-1))){
       if (numCERandStarts>0){
-        testDesign<-c(1,nextDesign(testDesign[1:(n-1)],p,algorithm="random"),specialNodes)
+       #cat(paste(AOptVal," "))
+        testDesign<-sort(c(1:p,nextDesign(testDesign[1:(n-p)], p ,algorithm="random"),specialNodes))
         numCERandStarts<-numCERandStarts-1
+        lastCEWin<-numEval
+       # cat(paste(testDesign),"\n")
       }
-      else{
-        stopCriterion<-TRUE
-      }
+      else{ stopCriterion<-TRUE }
     }
+
   }
 
-  return(list("AOptVal"=AOptVal,"AOptDesign"=AOptDesign,"numEval"=numEval))
-  ##TODO: Consider replacing with (as.vector(AOptDesign%*%c(1:n)[1:n]))
+  return(list("AOptVal"=AOptVal,"AOptDesign"=(as.vector(AOptDesign%*%c(1:(p+b)))[1:n]),"numFunEval"=numFunEval))
 }
 
-### A utility function for CE. TODO: Incorporate in nextDesign
-nextCEDesign<-function(startDesign,p,CECount){
-  if (CECount<=0){return(startDesign)}
-  n<-length(startDesign)
-  startDesign<-startDesign-rep(1,n) # Take from 1->n notation to 0->n-1 for nicer modular arithmetic
-  varToChange<-(((CECount-1)%/%(p-1))%%n)+1  #
-  amountToChange<-(CECount-1)%%(p-1)+1
-  startDesign[varToChange]<-(startDesign[varToChange]+amountToChange)%%p
-
-  return(startDesign+rep(1,n))
-}

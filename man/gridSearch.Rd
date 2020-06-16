@@ -2,26 +2,37 @@
 % Please edit documentation in R/gridSearch.R
 \name{gridSearch}
 \alias{gridSearch}
-\title{Search over all possible designs to find the global optimal}
+\title{Find the optimal design for a given network.}
 \usage{
-gridSearch(A, p, isomorphisms = FALSE, blockList = NULL,
-  ignoreLastNode = FALSE, algorithm = "sequential")
+gridSearch(
+  A,
+  p,
+  isoSearch = FALSE,
+  blockList = NULL,
+  ignoreLastNode = FALSE,
+  algorithm = "sequential",
+  networkEffects = FALSE
+)
 }
 \arguments{
 \item{A}{An adjacency matrix}
 
-\item{p}{The number of treatments in the experiment,}
+\item{p}{The number of treatments in the experiment}
 
-\item{isomorphisms}{Whether to ignore designs that are isomorphic to designs evaluated earlier}
+\item{isoSearch}{Whether to ignore designs that are isomorphic to designs evaluated earlier}
 
-\item{ignoreLastNode}{Whether we set the last node as zero. Can be useful to satisfy constraints in double blocking structures}
+\item{blockList}{A list. each element of which is a collection of nodes which form a block.}
 
-\item{algorithm}{Which algorithm to use for finding which designs to evaluate; currently 'sequential', 'random' and 'ce' are implemented}
+\item{ignoreLastNode}{Whether we set the last node as zero. Set to true to satisfy constraints in double blocking structures}
 
-\item{specialNodes}{Are there any nodes which are fixed that we don't want to apply treatments to.}
+\item{algorithm}{Which algorithm to use for finding which designs to evaluate; currently 'sequential', 'random' and 'ce' and exchange are implemented}
+
+\item{networkEffects}{Set to true if the optimal design for the network effects be found (default is to find direct effects)}
 }
 \description{
-Evaluates all possible designs by searching over a grid to find a global optimal. Can be slow for high A>20 or high p>2
+Finds the optimal design for a given network. Various algorithms are implemented to search a network to find the optimal design for.
+estimating treatment effects on that network. It can also be used to find optimal designs for experiments that contain blocking.
+Can be slow for high A>20 or high p>2.
 }
 \keyword{For}
 \keyword{a}
@@ -33,5 +44,5 @@ Evaluates all possible designs by searching over a grid to find a global optimal
 \keyword{optimal}
 \keyword{p}
 \keyword{the}
-\keyword{treatemtnes}
+\keyword{treatments.}
 \keyword{with}

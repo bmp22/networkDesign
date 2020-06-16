@@ -4,8 +4,14 @@
 \alias{gridSearchOld}
 \title{Search over all possible designs to find the global optimal}
 \usage{
-gridSearchOld(A, p, isomorphisms = FALSE, specialNodes = NULL,
-  ignoreLastNode = FALSE, algorithm = "sequential")
+gridSearchOld(
+  A,
+  p,
+  isomorphisms = FALSE,
+  specialNodes = NULL,
+  ignoreLastNode = FALSE,
+  algorithm = "sequential"
+)
 }
 \arguments{
 \item{A}{An adjacency matrix}

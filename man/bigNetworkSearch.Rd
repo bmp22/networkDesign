@@ -4,8 +4,7 @@
 \alias{bigNetworkSearch}
 \title{For a big network, apply treatments to a subset and search}
 \usage{
-bigNetworkSearch(A, treatments, sampleSize, restartProb = 0,
-  numIterations)
+bigNetworkSearch(A, treatments, sampleSize, restartProb = 0, numIterations)
 }
 \arguments{
 \item{A}{adjacency Matrix of the network}
