@@ -22,3 +22,16 @@ informationMatFull<-function(A,X){ # For compatibility
 infMatrix<-informationMat(A,X,setToZero=0)
 }
 
+informationMatViral<-function(A,X,thetaPrior,K){ # InfMat for viral parameter
+  infMatrix<-informationMatFull(A,X)
+  sigmaSq<-1
+  n<-dim(X)[1]
+  p<-length(thetaPrior)-2
+  XX<-cbind(rep(1,n),X)
+ infMatrix<-infMatrix[1:(p+1),1:(p+1)]
+  infMatrix<-cbind(infMatrix,t(XX)%*%A%*%K%*%XX%*%thetaPrior[1:(p+1)])
+ #cat(dim(t(X)%*%A%*%K%*%X%*%thetaPrior[2:(p+1)]))
+  #infMatrix<-cbind(infMatrix,c(t(XX)%*%A%*%K%*%XX%*%thetaPrior[1:(p+1)],t(X)%*%A%*%A%*%K%*%X%*%thetaPrior[2:(p+1)])) #Almost works
+  viralInf<-t(A%*%K%*%XX%*%thetaPrior[1:(p+1)])%*%A%*%K%*%XX%*%thetaPrior[1:(p+1)]+(sigmaSq/2)*sum(diag((t(K)%*%t(A)+A%*%K)*(t(K)%*%t(A)+A%*%K)))
+  infMatrix<-rbind(infMatrix,c(t(infMatrix[1:(p+1),p+2]),viralInf))
+ }

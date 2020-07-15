@@ -11,7 +11,7 @@ nextDesign<-function(design,k,algorithm="sequential",par=NULL){
   n<-length(design)
   if (algorithm=="sequential"){
     if(n==1){
-      design<-NULL
+      if (design<k){design<-design+1}else{design<-NULL}
     }
     else
     {
@@ -22,7 +22,6 @@ nextDesign<-function(design,k,algorithm="sequential",par=NULL){
       else
       {
         design<-c(nextDesign(design[1:(n-1)],k),1) # Set the last digit to 1 and recurse
-
       }
     }
     return(design)

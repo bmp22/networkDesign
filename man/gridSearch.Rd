@@ -11,7 +11,10 @@ gridSearch(
   blockList = NULL,
   ignoreLastNode = FALSE,
   algorithm = "sequential",
-  networkEffects = FALSE
+  networkEffects = FALSE,
+  weightPrior = NULL,
+  viralOpt = TRUE,
+  weights = 1
 )
 }
 \arguments{
@@ -21,13 +24,19 @@ gridSearch(
 
 \item{isoSearch}{Whether to ignore designs that are isomorphic to designs evaluated earlier}
 
-\item{blockList}{A list. each element of which is a collection of nodes which form a block.}
+\item{blockList}{A list, each element of which is a collection of nodes which together form a block.}
 
 \item{ignoreLastNode}{Whether we set the last node as zero. Set to true to satisfy constraints in double blocking structures}
 
-\item{algorithm}{Which algorithm to use for finding which designs to evaluate; currently 'sequential', 'random' and 'ce' and exchange are implemented}
+\item{algorithm}{Which algorithm to use for finding which designs to evaluate; currently 'sequential', 'random' , 'ce' and 'exchange' are implemented}
 
 \item{networkEffects}{Set to true if the optimal design for the network effects be found (default is to find direct effects)}
+
+\item{weightPrior}{A prior distribution on the parameters. Each row corresponds to a vector of unknown parameters.}
+
+\item{viralOpt}{If we have a viral parameter, do we want to estimate it (TRUE) or just estimate the difference in treatment effects}
+
+\item{weights}{Weights given to each element of weightPrior}
 }
 \description{
 Finds the optimal design for a given network. Various algorithms are implemented to search a network to find the optimal design for.
