@@ -184,10 +184,12 @@ gridSearch<-function(A,p,isoSearch=FALSE, blockList=NULL, ignoreLastNode=FALSE, 
       for (j in 1:(n+b)){
         testWeight[j,testDesign[j]]<-1
       }
-      if (is.null(weightPrior)){ # if we do not have a prior, i.e. no autoregressive design, calculate an information matrix without ar parameter
+      if (is.null(weightPrior)){
+        # if we do not have a prior, i.e. no autoregressive design,
+        # calculate an information matrix without ar parameter
       infMatrix<-informationMatFull(A,testWeight)
-      # Gives a standard information matrix with rows corresponding to information about mean
-      # and then 2m parameters
+      # Gives a standard information matrix with rows corresponding to
+      #information about mean and then 2m parameters
       }else{ # calculate information matrix with a viral parameter
       if (length(weights)>1){thetaPrior<-weightPrior[i,]}else{thetaPrior<-weightPrior} # Must be a clever way to do this in R
         K<-solve((diag(n+b)-thetaPrior[2*p+2*b+2]*t(A)))
@@ -204,9 +206,7 @@ gridSearch<-function(A,p,isoSearch=FALSE, blockList=NULL, ignoreLastNode=FALSE, 
         #invInfMatrix<-pd.solve(infMatrix)
         invInfMatrix<-chol2inv(chol(infMatrix))
 
-         ##ATrial<-mean(diag(invInfMatrix)[newOptVars])  # Wrong! This is A-optimality criteria, not pairwise.
-
-        ### A rather convoluted way to get the utility, but I can't think of anything faster...
+         ### A rather convoluted way to get the utility, but I can't think of anything faster...
         if (length(optVars)>1){
           for (count1 in (1:(length(optVars)-1))){
             for (count2 in (count1+1):(length(optVars))){
