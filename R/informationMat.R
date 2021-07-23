@@ -10,10 +10,6 @@
 
 
 informationMat<-function(A,X,setToZero=1){
-#A<-as.matrix(A)
-#X<-as.matrix(X)
-#s<-dim(X);
-#p<-s[2];
 F<-cbind((rep(1,dim(X)[1])),X[,1:(dim(X)[2]-setToZero)],A%*%X)
 infMatrix<-t(F)%*%F
 }
