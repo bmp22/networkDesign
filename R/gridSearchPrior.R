@@ -8,17 +8,14 @@
 #' @param p The number of treatments in the experiment
 #' @param isoSearch Whether to ignore designs that are isomorphic to designs evaluated earlier
 #' @param ignoreLastNode Whether we set the last node as zero. Set to true to satisfy constraints in double blocking structures
-#' @param algorithm Which algorithm to use for finding which designs to evaluate; currently 'sequential', 'random' , 'ce' and 'exchange' are implemented
-#' @param blockList A list, each element of which is a collection of nodes which together form a block.
-#' @param indirect  Set to FALSE is we do not model indirect effects. Default is TRUE, unless a weightPrior is set in which case is set to false
+#' @param algorithm Which algorithm to use for finding which designs to evaluate; currently 'sequential', 'random' and 'ce' and exchange are implemented
+#' @param blockList A list. each element of which is a collection of nodes which form a block.
 #' @param networkEffects Set to true if the optimal design for the network effects be found (default is to find direct effects)
 #' @param viralOpt If we have a viral parameter, do we want to estimate it (TRUE) or just estimate the difference in treatment effects
-#' @param weightPrior A prior distribution on the parameters. Each row corresponds to a vector of unknown parameters.
-#' @param weights Weights given to each element of weightPrior
 #' @keywords For a given adjacency matrix, find the optimal design with p treatments.
 #' @export
 #'
-gridSearch<-function(A,p,isoSearch=FALSE, blockList=NULL, ignoreLastNode=FALSE, algorithm="sequential",indirect=NULL, networkEffects=FALSE, weightPrior=NULL, viralOpt=TRUE,weights=1){
+gridSearchPrior<-function(A,p,isoSearch=FALSE, blockList=NULL, ignoreLastNode=FALSE, algorithm="sequential",networkEffects=FALSE, weightPrior=NULL, viralOpt=TRUE,weights){
   ### Initiate parameters
   if (!is.matrix(A)){stop("A must be a matrix")}
   n<-dim(A)[1] # How many experimental units
@@ -42,14 +39,6 @@ gridSearch<-function(A,p,isoSearch=FALSE, blockList=NULL, ignoreLastNode=FALSE, 
   }
   }
   A<-B
-
-  # Do we want network effects in the model
-
-  if (is.null(indirect)){
-    if (is.null(weightPrior)){indirect<-TRUE} else {indirect<-FALSE}
-  }else{
-    if ((indirect==FALSE)&(networkEffects==TRUE)){stop("To estimate network effects must include them in the model")}
-    }
 
   #### Set parameters for coordinate exchange algorithm
   lastCEWin<-0
@@ -96,7 +85,6 @@ gridSearch<-function(A,p,isoSearch=FALSE, blockList=NULL, ignoreLastNode=FALSE, 
  # Test whether a design is valid
   mult2<-(2^(c((n+b):1)))
  testValidDesign<-function(td){
-  if (!is.null(weightPrior)){return(TRUE)} # if we have a prior on treatments, any design can be optimal. TODO- could be improved
   x<-(match(c(1:p),td))
   if (anyNA(x)){return(FALSE)}
   if ((all(sort(x)==x))==FALSE){return(FALSE)} # Check whether design has elements 1:p with first
@@ -119,51 +107,43 @@ gridSearch<-function(A,p,isoSearch=FALSE, blockList=NULL, ignoreLastNode=FALSE, 
 
   oldDesign<-testDesign # For exchange algorithm
 
-  ##### This section now defines what we want to estimate, and what we assume to be zero in the model.
-  ##### TODO: Could probably be simplified
-
-  optVars<-c(2:(p+1)) # By default estimate the treatment effects
-
   # For block designs, we generally set the treatment effect of the last treatment to zero, and
   # set all the direct effects of the blocks to zero
   # For doubly blocked designs, such as Latin Squares, we might want to also set some block effect
   # such as the last to zero
-  if (ignoreLastNode==FALSE){ # For Blocked designs
+  if (ignoreLastNode==FALSE){
     setToZero<-c((p+1):(2*p+b+1))
-  }else{
-    setToZero<-c((p+1):(2*p+b+1),2*p+2*b+1) # For doubly blocked designs, last block is zero
+    optVars<-c(2:(p+1))
   }
+  else
+  {
+    setToZero<-c((p+1):(2*p+b+1),2*p+2*b+1)
+    optVars<-c(2:(p+1))
+  }
+
   # For non-blocked designs, set the last treatment to be zero for identifiability.
   if (is.null(blockList)){ # For non-blocked designs
     setToZero<-p+1
+    optVars<-c(2:(p+1))
+    if (networkEffects==TRUE){optVars=c((p+2):(2*p+1))} # Do we want treatment effects, or network effects.
   }
 
-  if (indirect==FALSE){setToZero<-c(setToZero,(p+b+2):(p+b+p+1))} # If we don't want indirect effects in our model, set them to zero as well
-
-  if (networkEffects==TRUE){optVars=c((p+b+2):(2*p+b+1))} # If we want to estimate treatment effects, or network effects.
-
-  if (!is.null(weightPrior)){ # If we have an autoregressive component
-    sigmaSq<-1
-   if (indirect==FALSE){
-     setToZero<-c((p+1),(p+b+2):(2*(p+b)+1))#ignore all network nodes plus last treatment
-   }else{
-     setToZero<-c((p+1))
-   }
-    numParam<-2*p+2*b+2
+  if (!is.null(weightPrior)){
+     #setToZero<-c((p+1),(p+b+2):(2*(p+b)+1)) #ignore all network nodes plus last treatment
+    #optVars<-c(2*(p+b)+2)
+    setToZero<-c(p+1)
+    #optVars<-c(p+b+2)
+    numParam<-p+b+2 # number of parameters in infMatrix
     if (viralOpt==TRUE){ # Do we want to estimate the viral parameter itself...
-      optVars<-c(2*p+2*b+2) # Override what we wanted to estimate
-    }#else{
-      #optVars<-c(2:(p+1))} #... or just the treatment effects
-  } else{
-    numParam<-2*p+2*b+1  }
+      optVars<-c(p+b+2)
+    }
+    else{optVars<-c(2:(p+1))} #... or just the treatment effects
 
 
-# cat(setToZero)
-# cat(":")
-# cat(optVars)
-# cat(":")
-# cat(numParam)
-
+  }
+  else{
+    numParam<-2*p+2*b+1
+  }
 ### We now need to rewrite optVars to take account of those we set to zero,
 ### i.e. if we want the second and 4th variable, and 3rd is set to zero,
 ### We want the second and 3rd of the non-zero variables
@@ -172,73 +152,77 @@ gridSearch<-function(A,p,isoSearch=FALSE, blockList=NULL, ignoreLastNode=FALSE, 
   binVars<-binVars[-setToZero]
   newOptVars<-(1:length(binVars))[as.logical(binVars)]
 
-
-### Now the main loop- keep going until we stop at some point
+  ### Now the main loop- keep going until we stop at some point
   stopCriterion<-FALSE
   while (stopCriterion==FALSE){
     if  (testValidDesign(testDesign[1:(n+b)])){
-      ATrial<-0
-      for (i in 1: length(weights)){
-        APartTrial<-0
+          ATrial<-0
+       for (i in 1: length(weights)){
+          APartTrial<-0
+
       testWeight<-matrix(rep(0,((n+b)*(p+b))),nrow=(n+b))
       for (j in 1:(n+b)){
         testWeight[j,testDesign[j]]<-1
       }
-      if (is.null(weightPrior)){ # if we do not have a prior, i.e. no autoregressive design, calculate an information matrix without ar parameter
       infMatrix<-informationMatFull(A,testWeight)
       # Gives a standard information matrix with rows corresponding to information about mean
       # and then 2m parameters
-      }else{ # calculate information matrix with a viral parameter
-      if (length(weights)>1){thetaPrior<-weightPrior[i,]}else{thetaPrior<-weightPrior} # Must be a clever way to do this in R
-        K<-solve((diag(n+b)-thetaPrior[2*p+2*b+2]*t(A)))
-        infMatrix<-informationMatViral(A=A,X=testWeight,thetaPrior=thetaPrior,K=K) #
+      if (!is.null(weightPrior)){
+      thetaPrior<-weightPrior[i,]
+      X<-cbind(rep(1,n+b),testWeight)
+      K<-solve((diag(n+b)-thetaPrior[p+b+2]*t(A)))
+      sigmaSq<-1
+      infMatrix<-infMatrix[1:(p+b+1),1:(p+b+1)]
+      infMatrix<-cbind(infMatrix,t(X)%*%A%*%K%*%X%*%thetaPrior[1:(p+b+1)])
+      viralInf<-t(A%*%K%*%X%*%thetaPrior[1:(p+b+1)])%*%A%*%K%*%X%*%thetaPrior[1:(p+b+1)]+(sigmaSq/2)*sum(diag((t(K)%*%t(A)+A%*%K)*(t(K)%*%t(A)+A%*%K)))
+      infMatrix<-rbind(infMatrix,c(t(infMatrix[1:(p+b+1),p+b+2]),viralInf))
       }
 
 
       infMatrix<-infMatrix[-setToZero,-setToZero] # Inf matrix reduced just for the non-zero effects
-
       if ((determinant(infMatrix)$modulus)>-10){ # If the matrix is invertible
+
         ## Various different ways to get inverse of information matrix, but as it is positive definite the Cholesky Decomposition
         ## Seems about 10% faster.
         #invInfMatrix<-solve(infMatrix,tol=1e-21)
         #invInfMatrix<-pd.solve(infMatrix)
         invInfMatrix<-chol2inv(chol(infMatrix))
 
-         ##ATrial<-mean(diag(invInfMatrix)[newOptVars])  # Wrong! This is A-optimality criteria, not pairwise.
+         ##ATrial<-mean(diag(invInfMatrix)[newOptVars])  # This is A-optimality criteria, not pairwise.
 
         ### A rather convoluted way to get the utility, but I can't think of anything faster...
         if (length(optVars)>1){
-          for (count1 in (1:(length(optVars)-1))){
-            for (count2 in (count1+1):(length(optVars))){
-              #cVec<-rep(0,2*p+2*b+1)
-              cVec<-rep(0,numParam)
-              cVec[optVars[count1]]<-1
-              cVec[optVars[count2]]<- -1
-              cVec<-cVec[-setToZero]
-              APartTrial<-APartTrial+(cVec%*%invInfMatrix%*%(cVec))[1,1]
-            }
-          }
 
-          APartTrial<-APartTrial/(p*(p-1)/2)
+        for (count1 in (1:(length(optVars)-1))){
+          for (count2 in (count1+1):(length(optVars))){
+            #cVec<-rep(0,2*p+2*b+1)
+            cVec<-rep(0,numParam)
+            cVec[optVars[count1]]<-1
+            cVec[optVars[count2]]<- -1
+            cVec<-cVec[-setToZero]
+            APartTrial<-APartTrial+(cVec%*%invInfMatrix%*%(cVec))[1,1]
+        }
+        }
+
+        APartTrial<-APartTrial/(p*(p-1)/2)
         }else{
           APartTrial<-invInfMatrix[newOptVars,newOptVars]
 
         }
       }
-      ATrial<-ATrial+weights[i]*APartTrial
-    }
+        ATrial<-ATrial+weights[i]*APartTrial
+      }
 
 
-    if ((ATrial>0)&(ATrial<AOptVal)){ # If we've found an optimal, store it and update the CE algorithm parameters
-      AOptVal<-ATrial
-      AOptDesign<-testWeight
-      AOptTest<-testDesign
-      lastCEWin<-numEval
+        if ((ATrial>0)&(ATrial<AOptVal)){ # If we've found an optimal, store it and update the CE algorithm parameters
+          AOptVal<-ATrial
+          AOptDesign<-testWeight
+          AOptTest<-testDesign
+          lastCEWin<-numEval
+          }
 
-    }
-
-    numFunEval<-numFunEval+1
-  }# End evaluate if a valid design
+      numFunEval<-numFunEval+1
+    }# End evaluate if a valid design
 
   numEval<-numEval+1 # Counter for CE Algorithm
 
