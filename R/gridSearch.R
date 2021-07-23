@@ -15,7 +15,7 @@
 #' @param viralOpt If we have a viral parameter, do we want to estimate it (TRUE) or just estimate the difference in treatment effects
 #' @param weightPrior A prior distribution on the parameters. Each row corresponds to a vector of unknown parameters.
 #' @param weights Weights given to each element of weightPrior
-#' @keywords For a given adjacency matrix, find the optimal design with p treatments.
+#' @keywords For a given adjacency matrix A, find the optimal design with p treatments.
 #' @export
 #'
 gridSearch<-function(A,p,isoSearch=FALSE, blockList=NULL, ignoreLastNode=FALSE, algorithm="sequential",indirect=NULL, networkEffects=FALSE, weightPrior=NULL, viralOpt=TRUE,weights=1){
