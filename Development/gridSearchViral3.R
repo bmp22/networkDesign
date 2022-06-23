@@ -110,7 +110,8 @@ gridSearchViral<-function(A,p,thetaPrior,isomorphisms=FALSE,specialNodes=NULL, i
       infMatrix<-informationMatFull(A,testWeight)[1:(p+1),1:(p+1)]
       infMatrix<-cbind(infMatrix,t(X)%*%A%*%K%*%X%*%thetaPrior[1:(p+1)])
       sigmaSq<-1
-      viralInf<-t(A%*%K%*%X%*%thetaPrior[1:(p+1)])%*%A%*%K%*%X%*%thetaPrior[1:(p+1)]+(1/sigmaSq)*sum(diag((t(K)%*%t(A)+A%*%K)))
+      #viralInf<-t(A%*%K%*%X%*%thetaPrior[1:(p+1)])%*%A%*%K%*%X%*%thetaPrior[1:(p+1)]+(1/sigmaSq)*sum(diag((t(K)%*%t(A)+A%*%K)))
+      viralInf<-t(A%*%K%*%X%*%thetaPrior[1:(p+1)])%*%A%*%K%*%X%*%thetaPrior[1:(p+1)]+(sigmaSq/2)*sum(diag((t(K)%*%t(A)+A%*%K)*(t(K)%*%t(A)+A%*%K)))
       infMatrix<-rbind(infMatrix,c(t(infMatrix[1:(p+1),p+2]),viralInf))
        # Gives a standard information matrix with rows corresponding to information about mean and then 2m parameters
       neworder=c(1:(p),(p+2))

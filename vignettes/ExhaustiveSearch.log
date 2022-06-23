@@ -1,24 +1,24 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.5.26)  28 MAY 2020 12:22
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/Debian) (preloaded format=pdflatex 2021.2.27)  22 JUL 2021 17:47
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**/tmp/RtmpJlgQPR/preview-bf626876f231.dir/ExhaustiveSearch.tex
-(/tmp/RtmpJlgQPR/preview-bf626876f231.dir/ExhaustiveSearch.tex
-LaTeX2e <2020-02-02> patch level 2
-L3 programming layer <2020-02-14> (/usr/share/texlive/texmf-dist/tex/latex/base
+**/tmp/Rtmp5XBH2Z/preview-246dd52ef89e1.dir/ExhaustiveSearch.tex
+(/tmp/Rtmp5XBH2Z/preview-246dd52ef89e1.dir/ExhaustiveSearch.tex
+LaTeX2e <2020-02-02> patch level 5
+L3 programming layer <2020-07-17> (/usr/share/texlive/texmf-dist/tex/latex/base
 /article.cls
 Document Class: article 2019/12/20 v1.4l Standard LaTeX document class
 (/usr/share/texlive/texmf-dist/tex/latex/base/size10.clo
 File: size10.clo 2019/12/20 v1.4l Standard LaTeX file (size option)
 )
-\c@part=\count167
-\c@section=\count168
-\c@subsection=\count169
-\c@subsubsection=\count170
-\c@paragraph=\count171
-\c@subparagraph=\count172
-\c@figure=\count173
-\c@table=\count174
+\c@part=\count168
+\c@section=\count169
+\c@subsection=\count170
+\c@subsubsection=\count171
+\c@paragraph=\count172
+\c@subparagraph=\count173
+\c@figure=\count174
+\c@table=\count175
 \abovecaptionskip=\skip47
 \belowcaptionskip=\skip48
 \bibindent=\dimen134
@@ -60,7 +60,7 @@ LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
 Package: amssymb 2013/01/14 v3.01 AMS font symbols
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amsfonts.sty
 Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
-\@emptytoks=\toks14
+\@emptytoks=\toks15
 \symAMSa=\mathgroup4
 \symAMSb=\mathgroup5
 LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
@@ -74,7 +74,7 @@ For additional information on amsmath, use the `?' option.
 Package: amstext 2000/06/29 v2.01 AMS text
 (/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0 generic functions
-\@emptytoks=\toks15
+\@emptytoks=\toks16
 \ex@=\dimen135
 )) (/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsbsy.sty
 Package: amsbsy 1999/11/29 v1.2d Bold Symbols
@@ -82,13 +82,13 @@ Package: amsbsy 1999/11/29 v1.2d Bold Symbols
 ) (/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsopn.sty
 Package: amsopn 2016/03/08 v2.02 operator names
 )
-\inf@bad=\count175
+\inf@bad=\count176
 LaTeX Info: Redefining \frac on input line 227.
-\uproot@=\count176
-\leftroot@=\count177
+\uproot@=\count177
+\leftroot@=\count178
 LaTeX Info: Redefining \overline on input line 389.
-\classnum@=\count178
-\DOTSCASE@=\count179
+\classnum@=\count179
+\DOTSCASE@=\count180
 LaTeX Info: Redefining \ldots on input line 486.
 LaTeX Info: Redefining \dots on input line 489.
 LaTeX Info: Redefining \cdots on input line 610.
@@ -97,32 +97,32 @@ LaTeX Info: Redefining \cdots on input line 610.
 \big@size=\dimen137
 LaTeX Font Info:    Redeclaring font encoding OML on input line 733.
 LaTeX Font Info:    Redeclaring font encoding OMS on input line 734.
-\macc@depth=\count180
-\c@MaxMatrixCols=\count181
+\macc@depth=\count181
+\c@MaxMatrixCols=\count182
 \dotsspace@=\muskip16
-\c@parentequation=\count182
-\dspbrk@lvl=\count183
-\tag@help=\toks16
-\row@=\count184
-\column@=\count185
-\maxfields@=\count186
-\andhelp@=\toks17
+\c@parentequation=\count183
+\dspbrk@lvl=\count184
+\tag@help=\toks17
+\row@=\count185
+\column@=\count186
+\maxfields@=\count187
+\andhelp@=\toks18
 \eqnshift@=\dimen138
 \alignsep@=\dimen139
 \tagshift@=\dimen140
 \tagwidth@=\dimen141
 \totwidth@=\dimen142
 \lineht@=\dimen143
-\@envbody=\toks18
+\@envbody=\toks19
 \multlinegap=\skip50
 \multlinetaggap=\skip51
-\mathdisplay@stack=\toks19
+\mathdisplay@stack=\toks20
 LaTeX Info: Redefining \[ on input line 2859.
 LaTeX Info: Redefining \] on input line 2860.
 ) (/usr/share/texlive/texmf-dist/tex/generic/iftex/ifxetex.sty
 Package: ifxetex 2019/10/25 v0.7 ifxetex legacy package. Use iftex instead.
 (/usr/share/texlive/texmf-dist/tex/generic/iftex/iftex.sty
-Package: iftex 2019/11/07 v1.0c TeX engine tests
+Package: iftex 2020/03/06 v1.0d TeX engine tests
 )) (/usr/share/texlive/texmf-dist/tex/generic/iftex/ifluatex.sty
 Package: ifluatex 2019/10/25 v1.5 ifluatex legacy package. Use iftex instead.
 ) (/usr/share/texlive/texmf-dist/tex/latex/base/fixltx2e.sty
@@ -142,8 +142,8 @@ LaTeX Font Info:    Trying to load font information for T1+lmr on input line 11
 File: t1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )) (/usr/share/texlive/texmf-dist/tex/latex/base/inputenc.sty
 Package: inputenc 2018/08/11 v1.3c Input encoding file
-\inpenc@prehook=\toks20
-\inpenc@posthook=\toks21
+\inpenc@prehook=\toks21
+\inpenc@posthook=\toks22
 ) (/usr/share/texlive/texmf-dist/tex/latex/upquote/upquote.sty
 Package: upquote 2012/04/19 v1.3 upright-quote and grave-accent glyphs in verba
 tim
@@ -153,14 +153,14 @@ Package: textcomp 2020/02/02 v2.0n Standard LaTeX package
 Package: microtype 2019/11/18 v2.7d Micro-typographical refinements (RS)
 (/usr/share/texlive/texmf-dist/tex/latex/graphics/keyval.sty
 Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
-\KV@toks@=\toks22
+\KV@toks@=\toks23
 )
-\MT@toks=\toks23
-\MT@count=\count187
+\MT@toks=\toks24
+\MT@count=\count188
 LaTeX Info: Redefining \textls on input line 790.
 \MT@outer@kern=\dimen144
 LaTeX Info: Redefining \textmicrotypecontext on input line 1354.
-\MT@listname@count=\count188
+\MT@listname@count=\count189
 (/usr/share/texlive/texmf-dist/tex/latex/microtype/microtype-pdftex.def
 File: microtype-pdftex.def 2019/11/18 v2.7d Definitions specific to pdftex (RS)
 
@@ -172,11 +172,11 @@ Package microtype Info: Loading configuration file microtype.cfg.
 (/usr/share/texlive/texmf-dist/tex/latex/microtype/microtype.cfg
 File: microtype.cfg 2019/11/18 v2.7d microtype main configuration file (RS)
 )) (/usr/share/texlive/texmf-dist/tex/latex/hyperref/hyperref.sty
-Package: hyperref 2020/01/14 v7.00d Hypertext links for LaTeX
+Package: hyperref 2020-05-15 v7.00e Hypertext links for LaTeX
 (/usr/share/texlive/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty
 Package: ltxcmds 2019/12/15 v1.24 LaTeX kernel commands for general use (HO)
-) (/usr/share/texlive/texmf-dist/tex/latex/pdftexcmds/pdftexcmds.sty
-Package: pdftexcmds 2019/11/24 v0.31 Utility functions of pdfTeX for LuaTeX (HO
+) (/usr/share/texlive/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
+Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO
 )
 (/usr/share/texlive/texmf-dist/tex/generic/infwarerr/infwarerr.sty
 Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
@@ -200,10 +200,10 @@ Package: auxhook 2019-12-17 v1.6 Hooks for auxiliary files (HO)
 Package: kvoptions 2019/11/29 v3.13 Key value format for package options (HO)
 )
 \@linkdim=\dimen145
-\Hy@linkcounter=\count189
-\Hy@pagecounter=\count190
+\Hy@linkcounter=\count190
+\Hy@pagecounter=\count191
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/pd1enc.def
-File: pd1enc.def 2020/01/14 v7.00d Hyperref: PDFDocEncoding definition (HO)
+File: pd1enc.def 2020-05-15 v7.00e Hyperref: PDFDocEncoding definition (HO)
 Now handling font encoding PD1 ...
 ... no UTF-8 mapping file for font encoding PD1
 ) (/usr/share/texlive/texmf-dist/tex/generic/intcalc/intcalc.sty
@@ -211,27 +211,26 @@ Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
 ) (/usr/share/texlive/texmf-dist/tex/generic/etexcmds/etexcmds.sty
 Package: etexcmds 2019/12/15 v1.7 Avoid name clashes with e-TeX commands (HO)
 )
-\Hy@SavedSpaceFactor=\count191
-\pdfmajorversion=\count192
-Package hyperref Info: Option `unicode' set `true' on input line 4421.
+\Hy@SavedSpaceFactor=\count192
+Package hyperref Info: Option `unicode' set `true' on input line 4338.
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/puenc.def
-File: puenc.def 2020/01/14 v7.00d Hyperref: PDF Unicode definition (HO)
+File: puenc.def 2020-05-15 v7.00e Hyperref: PDF Unicode definition (HO)
 Now handling font encoding PU ...
 ... no UTF-8 mapping file for font encoding PU
 )
-Package hyperref Info: Hyper figures OFF on input line 4547.
-Package hyperref Info: Link nesting OFF on input line 4552.
-Package hyperref Info: Hyper index ON on input line 4555.
-Package hyperref Info: Plain pages OFF on input line 4562.
-Package hyperref Info: Backreferencing OFF on input line 4567.
+Package hyperref Info: Hyper figures OFF on input line 4464.
+Package hyperref Info: Link nesting OFF on input line 4469.
+Package hyperref Info: Hyper index ON on input line 4472.
+Package hyperref Info: Plain pages OFF on input line 4479.
+Package hyperref Info: Backreferencing OFF on input line 4484.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
-Package hyperref Info: Bookmarks ON on input line 4800.
+Package hyperref Info: Bookmarks ON on input line 4717.
 \c@Hy@tempcnt=\count193
 (/usr/share/texlive/texmf-dist/tex/latex/url/url.sty
 \Urlmuskip=\muskip17
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
-LaTeX Info: Redefining \url on input line 5159.
+LaTeX Info: Redefining \url on input line 5076.
 \XeTeXLinkMargin=\dimen146
 (/usr/share/texlive/texmf-dist/tex/generic/bitset/bitset.sty
 Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
@@ -242,15 +241,15 @@ Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO
 \Fld@menulength=\count194
 \Field@Width=\dimen147
 \Fld@charsize=\dimen148
-Package hyperref Info: Hyper figures OFF on input line 6430.
-Package hyperref Info: Link nesting OFF on input line 6435.
-Package hyperref Info: Hyper index ON on input line 6438.
-Package hyperref Info: backreferencing OFF on input line 6445.
-Package hyperref Info: Link coloring OFF on input line 6450.
-Package hyperref Info: Link coloring with OCG OFF on input line 6455.
-Package hyperref Info: PDF/A mode OFF on input line 6460.
-LaTeX Info: Redefining \ref on input line 6500.
-LaTeX Info: Redefining \pageref on input line 6504.
+Package hyperref Info: Hyper figures OFF on input line 6347.
+Package hyperref Info: Link nesting OFF on input line 6352.
+Package hyperref Info: Hyper index ON on input line 6355.
+Package hyperref Info: backreferencing OFF on input line 6362.
+Package hyperref Info: Link coloring OFF on input line 6367.
+Package hyperref Info: Link coloring with OCG OFF on input line 6372.
+Package hyperref Info: PDF/A mode OFF on input line 6377.
+LaTeX Info: Redefining \ref on input line 6417.
+LaTeX Info: Redefining \pageref on input line 6421.
 (/usr/share/texlive/texmf-dist/tex/generic/atbegshi/atbegshi.sty
 Package: atbegshi 2019/12/05 v1.19 At begin shipout hook (HO)
 )
@@ -260,7 +259,7 @@ Package: atbegshi 2019/12/05 v1.19 At begin shipout hook (HO)
 )
 Package hyperref Info: Driver (autodetected): hpdftex.
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/hpdftex.def
-File: hpdftex.def 2020/01/14 v7.00d Hyperref driver for pdfTeX
+File: hpdftex.def 2020-05-15 v7.00e Hyperref driver for pdfTeX
 (/usr/share/texlive/texmf-dist/tex/latex/atveryend/atveryend.sty
 Package: atveryend 2019-12-11 v1.11 Hooks at the very end of document (HO)
 Package atveryend Info: \enddocument detected (standard20110627).
@@ -294,7 +293,7 @@ Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
 \Gm@layoutheight=\dimen154
 \Gm@layouthoffset=\dimen155
 \Gm@layoutvoffset=\dimen156
-\Gm@dimlist=\toks24
+\Gm@dimlist=\toks25
 ) (/usr/share/texlive/texmf-dist/tex/latex/graphics/color.sty
 Package: color 2019/11/23 v1.2a Standard LaTeX Color (DPC)
 (/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/color.cfg
@@ -304,7 +303,7 @@ Package color Info: Driver file: pdftex.def on input line 147.
 (/usr/share/texlive/texmf-dist/tex/latex/graphics-def/pdftex.def
 File: pdftex.def 2018/01/08 v1.0l Graphics/color driver for pdftex
 )) (/usr/share/texlive/texmf-dist/tex/latex/fancyvrb/fancyvrb.sty
-Package: fancyvrb 2020/01/13 v3.5 verbatim text (tvz,hv)
+Package: fancyvrb 2020/05/03 v3.6 verbatim text (tvz,hv)
 \FV@CodeLineNo=\count269
 \FV@InFile=\read2
 \FV@TabBox=\box47
@@ -337,12 +336,12 @@ y)
 Package grffile Info: This package is an empty stub for compatibility on input 
 line 40.
 ) (/usr/share/texlive/texmf-dist/tex/latex/parskip/parskip.sty
-Package: parskip 2020-01-22 v2.0d non-zero parskip adjustments
+Package: parskip 2020-06-15 v2.0f non-zero parskip adjustments
 (/usr/share/texlive/texmf-dist/tex/latex/etoolbox/etoolbox.sty
-Package: etoolbox 2019/09/21 v2.5h e-TeX tools for LaTeX (JAW)
+Package: etoolbox 2020/07/15 v2.5i e-TeX tools for LaTeX (JAW)
 \etb@tempcnta=\count272
 )) (/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-pdfmode.def
-File: l3backend-pdfmode.def 2020-02-03 L3 backend support: PDF mode
+File: l3backend-pdfmode.def 2020-06-29 L3 backend support: PDF mode
 \l__kernel_color_stack_int=\count273
 \l__pdf_internal_box=\box48
 ) (./ExhaustiveSearch.aux
@@ -444,12 +443,12 @@ LaTeX Info: Redefining \nameref on input line 111.
 \scratchbox=\box50
 \nofMPsegments=\count276
 \nofMParguments=\count277
-\everyMPshowfont=\toks25
+\everyMPshowfont=\toks26
 \MPscratchCnt=\count278
 \MPscratchDim=\dimen164
 \MPnumerator=\count279
 \makeMPintoPDFobject=\count280
-\everyMPtoPDFconversion=\toks26
+\everyMPtoPDFconversion=\toks27
 ) (/usr/share/texlive/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
@@ -532,88 +531,80 @@ Underfull \hbox (badness 10000) in paragraph at lines 164--166
 figures/SimpleNetwork.png>]
 LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <10> not available
 (Font)              Font shape `T1/lmtt/b/n' tried instead on input line 179.
-</tmp/RtmpJlgQPR/preview-bf626876f231.dir/ExhaustiveSearch_files/figure-latex/u
-nnamed-chunk-3-1.pdf, id=68, 469.755pt x 325.215pt>
-File: /tmp/RtmpJlgQPR/preview-bf626876f231.dir/ExhaustiveSearch_files/figure-la
-tex/unnamed-chunk-3-1.pdf Graphic file (type pdf)
-<use /tmp/RtmpJlgQPR/preview-bf626876f231.dir/ExhaustiveSearch_files/figure-lat
-ex/unnamed-chunk-3-1.pdf>
-Package pdftex.def Info: /tmp/RtmpJlgQPR/preview-bf626876f231.dir/ExhaustiveSea
-rch_files/figure-latex/unnamed-chunk-3-1.pdf  used on input line 200.
+</tmp/Rtmp5XBH2Z/preview-246dd52ef89e1.dir/ExhaustiveSearch_files/figure-latex/
+unnamed-chunk-3-1.pdf, id=68, 469.755pt x 325.215pt>
+File: /tmp/Rtmp5XBH2Z/preview-246dd52ef89e1.dir/ExhaustiveSearch_files/figure-l
+atex/unnamed-chunk-3-1.pdf Graphic file (type pdf)
+<use /tmp/Rtmp5XBH2Z/preview-246dd52ef89e1.dir/ExhaustiveSearch_files/figure-la
+tex/unnamed-chunk-3-1.pdf>
+Package pdftex.def Info: /tmp/Rtmp5XBH2Z/preview-246dd52ef89e1.dir/ExhaustiveSe
+arch_files/figure-latex/unnamed-chunk-3-1.pdf  used on input line 200.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-[2 </tmp/RtmpJlgQPR/preview-bf626876f231.dir/ExhaustiveSearch_files/figure-late
-x/unnamed-chunk-3-1.pdf>]
-</tmp/RtmpJlgQPR/preview-bf626876f231.dir/ExhaustiveSearch_files/figure-latex/u
-nnamed-chunk-5-1.pdf, id=81, 469.755pt x 325.215pt>
-File: /tmp/RtmpJlgQPR/preview-bf626876f231.dir/ExhaustiveSearch_files/figure-la
-tex/unnamed-chunk-5-1.pdf Graphic file (type pdf)
-<use /tmp/RtmpJlgQPR/preview-bf626876f231.dir/ExhaustiveSearch_files/figure-lat
-ex/unnamed-chunk-5-1.pdf>
-Package pdftex.def Info: /tmp/RtmpJlgQPR/preview-bf626876f231.dir/ExhaustiveSea
-rch_files/figure-latex/unnamed-chunk-5-1.pdf  used on input line 285.
+[2 </tmp/Rtmp5XBH2Z/preview-246dd52ef89e1.dir/ExhaustiveSearch_files/figure-lat
+ex/unnamed-chunk-3-1.pdf>]
+</tmp/Rtmp5XBH2Z/preview-246dd52ef89e1.dir/ExhaustiveSearch_files/figure-latex/
+unnamed-chunk-5-1.pdf, id=81, 469.755pt x 325.215pt>
+File: /tmp/Rtmp5XBH2Z/preview-246dd52ef89e1.dir/ExhaustiveSearch_files/figure-l
+atex/unnamed-chunk-5-1.pdf Graphic file (type pdf)
+<use /tmp/Rtmp5XBH2Z/preview-246dd52ef89e1.dir/ExhaustiveSearch_files/figure-la
+tex/unnamed-chunk-5-1.pdf>
+Package pdftex.def Info: /tmp/Rtmp5XBH2Z/preview-246dd52ef89e1.dir/ExhaustiveSe
+arch_files/figure-latex/unnamed-chunk-5-1.pdf  used on input line 272.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-[3]
-Underfull \vbox (badness 10000) detected at line 328
- []
-
-[4 </tmp/RtmpJlgQPR/preview-bf626876f231.dir/ExhaustiveSearch_files/figure-late
-x/unnamed-chunk-5-1.pdf>]
-Overfull \vbox (0.49055pt too high) detected at line 388
- []
-
-[5]
-</tmp/RtmpJlgQPR/preview-bf626876f231.dir/ExhaustiveSearch_files/figure-latex/u
-nnamed-chunk-6-1.pdf, id=99, 469.755pt x 325.215pt>
-File: /tmp/RtmpJlgQPR/preview-bf626876f231.dir/ExhaustiveSearch_files/figure-la
-tex/unnamed-chunk-6-1.pdf Graphic file (type pdf)
-<use /tmp/RtmpJlgQPR/preview-bf626876f231.dir/ExhaustiveSearch_files/figure-lat
-ex/unnamed-chunk-6-1.pdf>
-Package pdftex.def Info: /tmp/RtmpJlgQPR/preview-bf626876f231.dir/ExhaustiveSea
-rch_files/figure-latex/unnamed-chunk-6-1.pdf  used on input line 390.
+[3] [4 </tmp/Rtmp5XBH2Z/preview-246dd52ef89e1.dir/ExhaustiveSearch_files/figure
+-latex/unnamed-chunk-5-1.pdf>]
+</tmp/Rtmp5XBH2Z/preview-246dd52ef89e1.dir/ExhaustiveSearch_files/figure-latex/
+unnamed-chunk-6-1.pdf, id=95, 469.755pt x 325.215pt>
+File: /tmp/Rtmp5XBH2Z/preview-246dd52ef89e1.dir/ExhaustiveSearch_files/figure-l
+atex/unnamed-chunk-6-1.pdf Graphic file (type pdf)
+<use /tmp/Rtmp5XBH2Z/preview-246dd52ef89e1.dir/ExhaustiveSearch_files/figure-la
+tex/unnamed-chunk-6-1.pdf>
+Package pdftex.def Info: /tmp/Rtmp5XBH2Z/preview-246dd52ef89e1.dir/ExhaustiveSe
+arch_files/figure-latex/unnamed-chunk-6-1.pdf  used on input line 357.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-[6 </tmp/RtmpJlgQPR/preview-bf626876f231.dir/ExhaustiveSearch_files/figure-late
-x/unnamed-chunk-6-1.pdf>]
-</tmp/RtmpJlgQPR/preview-bf626876f231.dir/ExhaustiveSearch_files/figure-latex/m
-isspecification-1.pdf, id=109, 469.755pt x 325.215pt>
-File: /tmp/RtmpJlgQPR/preview-bf626876f231.dir/ExhaustiveSearch_files/figure-la
-tex/misspecification-1.pdf Graphic file (type pdf)
-<use /tmp/RtmpJlgQPR/preview-bf626876f231.dir/ExhaustiveSearch_files/figure-lat
-ex/misspecification-1.pdf>
-Package pdftex.def Info: /tmp/RtmpJlgQPR/preview-bf626876f231.dir/ExhaustiveSea
-rch_files/figure-latex/misspecification-1.pdf  used on input line 470.
+[5] [6 </tmp/Rtmp5XBH2Z/preview-246dd52ef89e1.dir/ExhaustiveSearch_files/figure
+-latex/unnamed-chunk-6-1.pdf>]
+</tmp/Rtmp5XBH2Z/preview-246dd52ef89e1.dir/ExhaustiveSearch_files/figure-latex/
+misspecification-1.pdf, id=109, 469.755pt x 325.215pt>
+File: /tmp/Rtmp5XBH2Z/preview-246dd52ef89e1.dir/ExhaustiveSearch_files/figure-l
+atex/misspecification-1.pdf Graphic file (type pdf)
+<use /tmp/Rtmp5XBH2Z/preview-246dd52ef89e1.dir/ExhaustiveSearch_files/figure-la
+tex/misspecification-1.pdf>
+Package pdftex.def Info: /tmp/Rtmp5XBH2Z/preview-246dd52ef89e1.dir/ExhaustiveSe
+arch_files/figure-latex/misspecification-1.pdf  used on input line 443.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 [7]
-</tmp/RtmpJlgQPR/preview-bf626876f231.dir/ExhaustiveSearch_files/figure-latex/u
-nnamed-chunk-7-1.pdf, id=115, 469.755pt x 325.215pt>
-File: /tmp/RtmpJlgQPR/preview-bf626876f231.dir/ExhaustiveSearch_files/figure-la
-tex/unnamed-chunk-7-1.pdf Graphic file (type pdf)
-<use /tmp/RtmpJlgQPR/preview-bf626876f231.dir/ExhaustiveSearch_files/figure-lat
-ex/unnamed-chunk-7-1.pdf>
-Package pdftex.def Info: /tmp/RtmpJlgQPR/preview-bf626876f231.dir/ExhaustiveSea
-rch_files/figure-latex/unnamed-chunk-7-1.pdf  used on input line 507.
+</tmp/Rtmp5XBH2Z/preview-246dd52ef89e1.dir/ExhaustiveSearch_files/figure-latex/
+unnamed-chunk-7-1.pdf, id=115, 469.755pt x 325.215pt>
+File: /tmp/Rtmp5XBH2Z/preview-246dd52ef89e1.dir/ExhaustiveSearch_files/figure-l
+atex/unnamed-chunk-7-1.pdf Graphic file (type pdf)
+<use /tmp/Rtmp5XBH2Z/preview-246dd52ef89e1.dir/ExhaustiveSearch_files/figure-la
+tex/unnamed-chunk-7-1.pdf>
+Package pdftex.def Info: /tmp/Rtmp5XBH2Z/preview-246dd52ef89e1.dir/ExhaustiveSe
+arch_files/figure-latex/unnamed-chunk-7-1.pdf  used on input line 480.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-[8 </tmp/RtmpJlgQPR/preview-bf626876f231.dir/ExhaustiveSearch_files/figure-late
-x/misspecification-1.pdf>] [9 </tmp/RtmpJlgQPR/preview-bf626876f231.dir/Exhaust
-iveSearch_files/figure-latex/unnamed-chunk-7-1.pdf>]
-</tmp/RtmpJlgQPR/preview-bf626876f231.dir/ExhaustiveSearch_files/figure-latex/u
-nnamed-chunk-9-1.pdf, id=137, 469.755pt x 325.215pt>
-File: /tmp/RtmpJlgQPR/preview-bf626876f231.dir/ExhaustiveSearch_files/figure-la
-tex/unnamed-chunk-9-1.pdf Graphic file (type pdf)
-<use /tmp/RtmpJlgQPR/preview-bf626876f231.dir/ExhaustiveSearch_files/figure-lat
-ex/unnamed-chunk-9-1.pdf>
-Package pdftex.def Info: /tmp/RtmpJlgQPR/preview-bf626876f231.dir/ExhaustiveSea
-rch_files/figure-latex/unnamed-chunk-9-1.pdf  used on input line 571.
+[8 </tmp/Rtmp5XBH2Z/preview-246dd52ef89e1.dir/ExhaustiveSearch_files/figure-lat
+ex/misspecification-1.pdf>] [9 </tmp/Rtmp5XBH2Z/preview-246dd52ef89e1.dir/Exhau
+stiveSearch_files/figure-latex/unnamed-chunk-7-1.pdf>]
+</tmp/Rtmp5XBH2Z/preview-246dd52ef89e1.dir/ExhaustiveSearch_files/figure-latex/
+unnamed-chunk-9-1.pdf, id=137, 469.755pt x 325.215pt>
+File: /tmp/Rtmp5XBH2Z/preview-246dd52ef89e1.dir/ExhaustiveSearch_files/figure-l
+atex/unnamed-chunk-9-1.pdf Graphic file (type pdf)
+<use /tmp/Rtmp5XBH2Z/preview-246dd52ef89e1.dir/ExhaustiveSearch_files/figure-la
+tex/unnamed-chunk-9-1.pdf>
+Package pdftex.def Info: /tmp/Rtmp5XBH2Z/preview-246dd52ef89e1.dir/ExhaustiveSe
+arch_files/figure-latex/unnamed-chunk-9-1.pdf  used on input line 543.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-[10 </tmp/RtmpJlgQPR/preview-bf626876f231.dir/ExhaustiveSearch_files/figure-lat
-ex/unnamed-chunk-9-1.pdf>]
-</tmp/RtmpJlgQPR/preview-bf626876f231.dir/ExhaustiveSearch_files/figure-latex/u
-nnamed-chunk-11-1.pdf, id=147, 469.755pt x 325.215pt>
-File: /tmp/RtmpJlgQPR/preview-bf626876f231.dir/ExhaustiveSearch_files/figure-la
-tex/unnamed-chunk-11-1.pdf Graphic file (type pdf)
-<use /tmp/RtmpJlgQPR/preview-bf626876f231.dir/ExhaustiveSearch_files/figure-lat
-ex/unnamed-chunk-11-1.pdf>
-Package pdftex.def Info: /tmp/RtmpJlgQPR/preview-bf626876f231.dir/ExhaustiveSea
-rch_files/figure-latex/unnamed-chunk-11-1.pdf  used on input line 636.
+[10 </tmp/Rtmp5XBH2Z/preview-246dd52ef89e1.dir/ExhaustiveSearch_files/figure-la
+tex/unnamed-chunk-9-1.pdf>]
+</tmp/Rtmp5XBH2Z/preview-246dd52ef89e1.dir/ExhaustiveSearch_files/figure-latex/
+unnamed-chunk-11-1.pdf, id=147, 469.755pt x 325.215pt>
+File: /tmp/Rtmp5XBH2Z/preview-246dd52ef89e1.dir/ExhaustiveSearch_files/figure-l
+atex/unnamed-chunk-11-1.pdf Graphic file (type pdf)
+<use /tmp/Rtmp5XBH2Z/preview-246dd52ef89e1.dir/ExhaustiveSearch_files/figure-la
+tex/unnamed-chunk-11-1.pdf>
+Package pdftex.def Info: /tmp/Rtmp5XBH2Z/preview-246dd52ef89e1.dir/ExhaustiveSe
+arch_files/figure-latex/unnamed-chunk-11-1.pdf  used on input line 608.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 [11]
 </home/bmp22/Dropbox/Talks/figures/example6nakedv3.png, id=153, 334.24875pt x 2
@@ -622,53 +613,53 @@ File: /home/bmp22/Dropbox/Talks/figures/example6nakedv3.png Graphic file (type
 png)
 <use /home/bmp22/Dropbox/Talks/figures/example6nakedv3.png>
 Package pdftex.def Info: /home/bmp22/Dropbox/Talks/figures/example6nakedv3.png 
- used on input line 654.
+ used on input line 626.
 (pdftex.def)             Requested size: 188.20825pt x 147.51457pt.
 
 LaTeX Warning: Reference `eq:linearNetworkEffects' on page 12 undefined on inpu
-t line 661.
+t line 633.
 
-[12 </tmp/RtmpJlgQPR/preview-bf626876f231.dir/ExhaustiveSearch_files/figure-lat
-ex/unnamed-chunk-11-1.pdf> </home/bmp22/Dropbox/Talks/figures/example6nakedv3.p
-ng>]
-</tmp/RtmpJlgQPR/preview-bf626876f231.dir/ExhaustiveSearch_files/figure-latex/E
-xample6-1.pdf, id=167, 469.755pt x 325.215pt>
-File: /tmp/RtmpJlgQPR/preview-bf626876f231.dir/ExhaustiveSearch_files/figure-la
-tex/Example6-1.pdf Graphic file (type pdf)
-<use /tmp/RtmpJlgQPR/preview-bf626876f231.dir/ExhaustiveSearch_files/figure-lat
-ex/Example6-1.pdf>
-Package pdftex.def Info: /tmp/RtmpJlgQPR/preview-bf626876f231.dir/ExhaustiveSea
-rch_files/figure-latex/Example6-1.pdf  used on input line 680.
+[12 </tmp/Rtmp5XBH2Z/preview-246dd52ef89e1.dir/ExhaustiveSearch_files/figure-la
+tex/unnamed-chunk-11-1.pdf> </home/bmp22/Dropbox/Talks/figures/example6nakedv3.
+png>]
+</tmp/Rtmp5XBH2Z/preview-246dd52ef89e1.dir/ExhaustiveSearch_files/figure-latex/
+Example6-1.pdf, id=167, 469.755pt x 325.215pt>
+File: /tmp/Rtmp5XBH2Z/preview-246dd52ef89e1.dir/ExhaustiveSearch_files/figure-l
+atex/Example6-1.pdf Graphic file (type pdf)
+<use /tmp/Rtmp5XBH2Z/preview-246dd52ef89e1.dir/ExhaustiveSearch_files/figure-la
+tex/Example6-1.pdf>
+Package pdftex.def Info: /tmp/Rtmp5XBH2Z/preview-246dd52ef89e1.dir/ExhaustiveSe
+arch_files/figure-latex/Example6-1.pdf  used on input line 652.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-[13 </tmp/RtmpJlgQPR/preview-bf626876f231.dir/ExhaustiveSearch_files/figure-lat
-ex/Example6-1.pdf>]
-</tmp/RtmpJlgQPR/preview-bf626876f231.dir/ExhaustiveSearch_files/figure-latex/u
-nnamed-chunk-13-1.pdf, id=178, 469.755pt x 325.215pt>
-File: /tmp/RtmpJlgQPR/preview-bf626876f231.dir/ExhaustiveSearch_files/figure-la
-tex/unnamed-chunk-13-1.pdf Graphic file (type pdf)
-<use /tmp/RtmpJlgQPR/preview-bf626876f231.dir/ExhaustiveSearch_files/figure-lat
-ex/unnamed-chunk-13-1.pdf>
-Package pdftex.def Info: /tmp/RtmpJlgQPR/preview-bf626876f231.dir/ExhaustiveSea
-rch_files/figure-latex/unnamed-chunk-13-1.pdf  used on input line 753.
+[13 </tmp/Rtmp5XBH2Z/preview-246dd52ef89e1.dir/ExhaustiveSearch_files/figure-la
+tex/Example6-1.pdf>]
+</tmp/Rtmp5XBH2Z/preview-246dd52ef89e1.dir/ExhaustiveSearch_files/figure-latex/
+unnamed-chunk-13-1.pdf, id=178, 469.755pt x 325.215pt>
+File: /tmp/Rtmp5XBH2Z/preview-246dd52ef89e1.dir/ExhaustiveSearch_files/figure-l
+atex/unnamed-chunk-13-1.pdf Graphic file (type pdf)
+<use /tmp/Rtmp5XBH2Z/preview-246dd52ef89e1.dir/ExhaustiveSearch_files/figure-la
+tex/unnamed-chunk-13-1.pdf>
+Package pdftex.def Info: /tmp/Rtmp5XBH2Z/preview-246dd52ef89e1.dir/ExhaustiveSe
+arch_files/figure-latex/unnamed-chunk-13-1.pdf  used on input line 726.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 [14]
-</tmp/RtmpJlgQPR/preview-bf626876f231.dir/ExhaustiveSearch_files/figure-latex/S
-imilar plot for phi_2-1.pdf, id=183, 469.755pt x 325.215pt>
-File: /tmp/RtmpJlgQPR/preview-bf626876f231.dir/ExhaustiveSearch_files/figure-la
-tex/Similar plot for phi_2-1.pdf Graphic file (type pdf)
-<use /tmp/RtmpJlgQPR/preview-bf626876f231.dir/ExhaustiveSearch_files/figure-lat
-ex/Similar plot for phi_2-1.pdf>
-Package pdftex.def Info: /tmp/RtmpJlgQPR/preview-bf626876f231.dir/ExhaustiveSea
-rch_files/figure-latex/Similar plot for phi_2-1.pdf  used on input line 768.
+</tmp/Rtmp5XBH2Z/preview-246dd52ef89e1.dir/ExhaustiveSearch_files/figure-latex/
+Similar plot for phi_2-1.pdf, id=183, 469.755pt x 325.215pt>
+File: /tmp/Rtmp5XBH2Z/preview-246dd52ef89e1.dir/ExhaustiveSearch_files/figure-l
+atex/Similar plot for phi_2-1.pdf Graphic file (type pdf)
+<use /tmp/Rtmp5XBH2Z/preview-246dd52ef89e1.dir/ExhaustiveSearch_files/figure-la
+tex/Similar plot for phi_2-1.pdf>
+Package pdftex.def Info: /tmp/Rtmp5XBH2Z/preview-246dd52ef89e1.dir/ExhaustiveSe
+arch_files/figure-latex/Similar plot for phi_2-1.pdf  used on input line 743.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 770.
-[15 </tmp/RtmpJlgQPR/preview-bf626876f231.dir/ExhaustiveSearch_files/figure-lat
-ex/unnamed-chunk-13-1.pdf>] [16 </tmp/RtmpJlgQPR/preview-bf626876f231.dir/Exhau
-stiveSearch_files/figure-latex/Similar plot for phi_2-1.pdf>]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 770.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 745.
+[15 </tmp/Rtmp5XBH2Z/preview-246dd52ef89e1.dir/ExhaustiveSearch_files/figure-la
+tex/unnamed-chunk-13-1.pdf>] [16 </tmp/Rtmp5XBH2Z/preview-246dd52ef89e1.dir/Exh
+austiveSearch_files/figure-latex/Similar plot for phi_2-1.pdf>]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 745.
 (./ExhaustiveSearch.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 770.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 770.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 745.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 745.
 Package rerunfilecheck Info: File `ExhaustiveSearch.out' has not changed.
 (rerunfilecheck)             Checksum: 9517B79C2A20B66BEAF87EA47869BA7C;1380.
 
@@ -677,16 +668,16 @@ LaTeX Warning: There were undefined references.
 
 LaTeX Warning: There were multiply-defined labels.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 770.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 745.
  ) 
 Here is how much of TeX's memory you used:
- 12921 strings out of 483183
- 195160 string characters out of 5966292
- 466987 words of memory out of 5000000
- 27590 multiletter control sequences out of 15000+600000
- 577480 words of font info for 102 fonts, out of 8000000 for 9000
+ 12924 strings out of 482854
+ 195283 string characters out of 5956881
+ 471264 words of memory out of 5000000
+ 27918 multiletter control sequences out of 15000+600000
+ 580396 words of font info for 109 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 34i,7n,42p,1020b,366s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 43i,7n,42p,1021b,364s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf/fonts/enc/dvips/lm/lm-mathsy.enc}{/usr/share/texmf/fonts/en
 c/dvips/lm/lm-ec.enc}{/usr/share/texmf/fonts/enc/dvips/lm/lm-ts1.enc}{/usr/shar
 e/texmf/fonts/enc/dvips/lm/lm-mathex.enc}{/usr/share/texmf/fonts/enc/dvips/lm/l
@@ -699,7 +690,7 @@ blic/lm/lmr7.pfb></usr/share/texmf/fonts/type1/public/lm/lmri10.pfb></usr/share
 /texmf/fonts/type1/public/lm/lmsy7.pfb></usr/share/texmf/fonts/type1/public/lm/
 lmtk10.pfb></usr/share/texmf/fonts/type1/public/lm/lmtt10.pfb></usr/share/texmf
 /fonts/type1/public/lm/lmtti10.pfb>
-Output written on ExhaustiveSearch.pdf (16 pages, 475897 bytes).
+Output written on ExhaustiveSearch.pdf (16 pages, 475942 bytes).
 PDF statistics:
  259 PDF objects out of 1000 (max. 8388607)
  202 compressed objects within 3 object streams

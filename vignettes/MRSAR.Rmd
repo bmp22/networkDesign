@@ -1,0 +1,166 @@
+---
+title: "MRSAR Model and Extensions"
+author: "Ben Parker"
+date: "23 July 2021"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(networkDesign)
+```
+
+## MRSAR Model
+We consider a general model for experimental design on networks.
+
+$$
+Y_{ij}= \mu+\tau_{t(i)} + z_{b(i)}+ \sum_{k=1}^n{A_{ki}\gamma_{t(k)}} + 
+\rho\sum_{k=1}^n{A_{ik}Y_k}+\epsilon_{ij},
+$$
+
+where $i\in\{1,\ldots,n\}$ is the experimental unit, $t(i)\in\{1,\ldots,m\}$ is the treatment given to the $i-$th experimental unit, $\tau_j$ is the treatment effect of the $j-th$ treatment, $j\in\{1,\ldots,m\}$, $z_{b(i)}$ is a block effect caused by the experimental unit being in block $b(i)\in\{1,\ldots,B\}$, $\rho$ is an autoregressive parameter, $A$ is a $n\times n$ matrix where $0\le A_{ij} \le 1 \quad \forall i\ne j$, $A_{ii}=0 \quad \forall i$, and we assume that  $\epsilon_i$  are independent and identically normally distributed with mean 0 and constant variance $\sigma^2$. 
+
+Thus the response of the $(ij)$-th experimental unit now depends on
+
+* a grand mean $\mu$
+* a treatment effect corresponding to the treatment given directly to the experimental unit;
+* a block effect depending on the block that the experimental unit is in;
+* the sum of the indirect treatment effect corresponding to  
+treatments given to neighbours of the experimental unit, weighted for the 
+strength of the influences of those neighbours;
+* the sum of the autoregressive effects due to the experimental units response 
+being modified due to the response of its neighbours;
+
+We can take special cases of this model:
+
+The completely randomised model (CRM)
+$$
+Y_{i}= \mu+\tau_{t(i)} +\epsilon_{i},
+$$
+The randomised block model (RBM)
+
+$$
+Y_{ij}= \mu+\tau_{t(i)} + z_{b(i)}+\epsilon_{ij},
+$$
+The linear network effects model (LNM)
+$$
+Y_{i}= \mu+\tau_{t(i)} + \sum_{k=1}^n{A_{ki}\gamma_{t(k)}} +\epsilon_{i},
+$$
+or the Spatial Lag/MRSAR model
+$$
+Y_{ij}= \mu+\tau_{t(i)} +  
+\rho\sum_{k=1}^n{A_{ik}Y_k}+\epsilon_{ij},
+$$
+
+Designs for all these models can be found with this `networkdesign` package. We demonstrate with the same network throughout which we show below:
+```{r}
+library(igraph)
+library(networkDesign)
+data("JRSSExamples")
+A<-JRSSExamples$ex2
+g<-graph_from_adjacency_matrix(A)
+E(g)$arrow.mode<-0 # plot without arrows
+plot.igraph(g,layout=layout_in_circle(g))
+```
+
+To find an optimal design under the LNM, we can do simply this
+```{r}
+gridSearch(A,p=2)
+```
+Setting `p`=2 shows we find the design for estimating the treatment effects for two treatments.
+
+If we want to find the design which is optimal for estimating the network effects under the LNM,
+```{r}
+gridSearch(JRSSExamples$ex1,2, networkEffects = TRUE)
+```
+If on the other hand we want to impose that there are no network effects, in other words to find a completely randomised design, we set `indirect=FALSE` as follows:
+```{r}
+gridSearch(JRSSExamples$ex1,2, indirect=FALSE)
+```
+This correctly gives us the correct variance for n=10 with two treatments, of 0.4, although using this R method is of course overkill!
+
+Designing under the Spatial Lag/MRSAR model can also be done, which as this is now a non-linear design problem, we must do by specifiying a prior for our mean effects, treatment effects, network effects, and autoregressive parameter:
+```{r}
+gridSearch(JRSSExamples$ex1,2,weightPrior = c(20,10,0,0,0,0.5))
+```
+As we have specified a `weightPrior` by default the MRSAR model is assumed. The syntax is that the prior specifies our mean $\mu$, our treatment effects $\tau_1,\ldots,\tau_p$, our indirect network effects $\gamma_1,\ldots,\gamma_p$ and then $\rho$ in that order. For these designs (where there are no blocks), we must have $2p+2$ parameters. 
+
+We can also find the design which is optimal for estimating the autorgressive parameter itself if we specify `viralOpt = TRUE`
+```{r}
+gridSearch(JRSSExamples$ex1,2,weightPrior = c(20,10,0,0,0,0.5),viralOpt = TRUE)
+```
+
+## Blocking
+
+If we want to incorporate blocks in our model, we must specify the block structure using the `blockList` parameter. For example, if we put experimental units 1 to 5 in one block, and 6 to 10 in another block, we do the following for the LNM with blocks.
+
+```{r}
+gridSearch(JRSSExamples$ex2,p=2,
+           blockList=list(c(1,2,3,4,5),c(6,7,8,9,10)))
+```
+
+We can consider a model that imposes there being no network effect by using 'INDIRECT=FALSE' and this can be shown to correspond to the Randomised Block Model
+```{r}
+gridSearch(JRSSExamples$ex2,p=2,
+           blockList=list(c(1,2,3,4,5),c(6,7,8,9,10)),indirect=FALSE)
+```
+To check this works, let's construct a small blocked experiment, with three sets of three unconnected experimental units :
+```{r}
+A<-matrix(rep(0,9*9),nrow=9) # 9 nodes which are not connected in any way
+gridSearch(A,p=3, 
+           blockList=list(c(1,2,3),c(4,5,6),c(7,8,9)),
+           indirect = FALSE, algorithm="random") # 3*3 Block desisn
+```
+The correct RCBD for three treatments is reproduced, with three blocks each containing three treatments.
+
+We can also use doubly blocked structures, e.g. the row-column model where we have 
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(tidyverse)
+blockSchematic<-tibble(Block =c("R1","R2","R3"),C1=c(1,2,3),C2=c(4,5,6),C3=c(7,8,9))
+library(knitr)
+kable(blockSchematic) 
+```
+
+
+where rows form blocks, and columns form blocks.
+```{r}
+gridSearch(A,p=3, 
+           blockList=list(c(1,2,3),c(4,5,6),c(7,8,9)
+                          ,c(1,4,7),c(2,5,8),c(3,6,9)),
+           ignoreLastNode=TRUE)
+```
+Note that we have set the `ignoreLastNode` parameter to TRUE as we need to specify an extra constraint (in this case that the block effect of the last block specified is 0)
+
+The correct design on this network is produced (a latin square design)
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(tidyverse)
+blockSchematic<-tibble(Block =c("R1","R2","R3"),
+                       C1=c(1,2,3),C2=c(2,3,1),C3=c(3,1,2))
+library(knitr)
+kable(blockSchematic) 
+```
+Now of course we can, with careful specification, find the optimal design for estimating treatment effects for, e.g a MRSAR model with blocks, 
+```{r}
+gridSearch(A,2, blockList=list(c(1,2,3,4,5,6),c(7,8,9,10)),
+           weightPrior = c(2,1,0,5,3,0,0,0,0,0.1),
+           viralOpt = FALSE)
+gridSearch(A,2, blockList=list(c(1,2,3,4),c(5,6),c(7,8,9,10)),
+           weightPrior = c(2,1,0,5,3,0,0,0,0,0,0,0.1),
+            viralOpt = FALSE)
+```
+This requires a little explanation: the weightPrior now specifies the following
+terms in this order (mean, treatnent effects, block effects, network effects, network-block effects): $$(\mu,\tau_1,\ldots,\tau_p,z_1,\ldots,z_b,\gamma_1,\ldots,\gamma_p,(z\gamma)_1,\ldots,(z\gamma)_1,\rho)$$
+
+It is important to specify the mean, and the treatment effects (although the last treatment effect is always assumed to be zero, and the block effects). The others are ignored unless we now specify that we want indirect effects.
+
+If we want to specify an MRSAR with indirect treatment effects:
+
+```{r}
+gridSearch(JRSSExamples$ex1,2, blockList=list(c(1,2,3,4,5),c(6,7,8,9,10)),
+           weightPrior = c(2,1,0,4,3,0,0,0,0,0.1),
+           indirect=TRUE, viralOpt = FALSE)
+```

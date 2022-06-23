@@ -81,19 +81,21 @@ Rprof()
 summaryRprof(tmp)$sampling.time
 summaryRprof(tmp2)$sampling.time
 ```
-Thus we see that the search here takes a little bit less time (about half), but there are significantly fewer function evaluations. This time saving varies with the network size $n$, the number of treatments $p$, and the number of isomorphisms $z$.
+Thus we see that the search here takes a little bit less time, but there are significantly fewer function evaluations. This time saving varies with the network size $n$, the number of treatments $p$, and the number of isomorphisms $z$.
 
 
-###Block Designs
+### Block Designs
+
+
 Often our experimental units are grouped in blocks, where experimental units in the same block all experience a common block effect. Often this is a nuisance effect that we do not wish to estimate.
 
 This is formalised in the **randomised block model**:
 
 $Y_{ij}= \mu+\tau_{t(i)} +b_j+\epsilon_{ij}$
 
-Experimental unit $i$ in block $j$ is given treatment $t(i)$, experiences a treatment effect $\tau_t(i)$, and a block effect $b_j$. Various assumptions are made about the errors $\epsilon_{ij}$, but we can assume for now that they are independently normally distributed with common variance.
+Experimental unit $i$ in block $j$ is given treatment $t(i)$, experiences a treatment effect $\tau_{t(i)}$, and a block effect $b_j$. Various assumptions are made about the errors $\epsilon_{ij}$, but we can assume for now that they are independently normally distributed with common variance.
 
-We can also represent block designs as networks, so our algorithm can be used for finding block designs. We specify the blocks in the 'blocklist' argument by a list, each element of which identifies the nodes within the block.
+We can also represent block designs as networks, so our algorithm can be used for finding block designs. We specify the blocks in the `blocklist` argument by a list, each element of the list corresponding to a set of nodes within the block.
 
 ```{r}
 A<-matrix(rep(0,9*9),nrow=9) # 9 nodes which are not connected in any way
@@ -101,9 +103,11 @@ gridSearch(A,p=3,isoSearch=TRUE, blockList=list(c(1,2,3),c(4,5,6),c(7,8,9)),
            ignoreLastNode=FALSE)
 ```
 Thus the optimal design for this is given by
-| 1 2 3 |
-| 1 2 3 |
-| 1 2 3 |
+
+| 1 2 3 
+| 1 2 3 
+| 1 2 3 
+
 as we expect.
 
 We can also find the optimal designs for multiply-blocked experiments, such as row-column designs. With multiply defined blocks, we usually have the problem that the blcok effects are not-identifiable, and that we must impose a further constraint. Without loss of generality, we do this here by setting the 'ignoreLastNode' parameter to 'TRUE', which forces the last block in the list to have effect zero. As we are interested in the difference between treatment effects, this does not effect out design.
@@ -111,13 +115,17 @@ We can also find the optimal designs for multiply-blocked experiments, such as r
 
 ```{r}
 A<-matrix(rep(0,9*9),nrow=9) # 9 nodes which are not connected in any way
-gridSearch(A,p=3,isoSearch=TRUE, blockList=list(c(1,2,3),c(4,5,6),c(7,8,9),
-                                                c(1,4,7),c(2,5,8),c(3,6,9)),ignoreLastNode=TRUE)
+gridSearch(A,p=3,isoSearch=TRUE, 
+           blockList=list(c(1,2,3),c(4,5,6),c(7,8,9),
+                          c(1,4,7),c(2,5,8),c(3,6,9)),
+           ignoreLastNode=TRUE)
 ```
 Thus the optimal design for this is given by
-| 1 2 3 |
-| 2 3 1 |
-| 3 1 2 |
+
+| 1 2 3 
+| 2 3 1 
+| 3 1 2 
+ 
 which is a Latin Square of size 3, as we expect.
 
 Of course, these are simple examples; more complicated examples are possible with the package.

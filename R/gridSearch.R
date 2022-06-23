@@ -1,8 +1,8 @@
 #' Find the optimal design for a given network.
 #'
-#' Finds the optimal design for a given network. Various algorithms are implemented to search a network to find the optimal design for.
-#' estimating treatment effects on that network. It can also be used to find optimal designs for experiments that contain blocking.
-#' Can be slow for high A>20 or high p>2.
+#' Finds the optimal design for a given network. Various algorithms are implemented to search a network to find the optimal design
+#' It can also be used to find optimal designs for experiments that contain blocking.
+#' Can be slow for high A>20 or high p>2 .
 #'
 #' @param A An adjacency matrix
 #' @param p The number of treatments in the experiment
@@ -12,13 +12,14 @@
 #' @param blockList A list, each element of which is a collection of nodes which together form a block.
 #' @param indirect  Set to FALSE is we do not model indirect effects. Default is TRUE, unless a weightPrior is set in which case is set to false
 #' @param networkEffects Set to true if the optimal design for the network effects be found (default is to find direct effects)
-#' @param viralOpt If we have a viral parameter, do we want to estimate it (TRUE) or just estimate the difference in treatment effects
+#' @param viralOpt If we have a autoregressive model, do we want to estimate the autoregressive parameter(TRUE) or just estimate the difference in treatment effects
 #' @param weightPrior A prior distribution on the parameters. Each row corresponds to a vector of unknown parameters.
 #' @param weights Weights given to each element of weightPrior
-#' @keywords For a given adjacency matrix A, find the optimal design with p treatments.
+#' @keywords For a given network with adjacency matrix A, find the optimal design with p treatments.
 #' @export
 #'
-gridSearch<-function(A,p,isoSearch=FALSE, blockList=NULL, ignoreLastNode=FALSE, algorithm="sequential",indirect=NULL, networkEffects=FALSE, weightPrior=NULL, viralOpt=TRUE,weights=1){
+gridSearch<-function(A,p,isoSearch=FALSE, blockList=NULL, ignoreLastNode=FALSE, algorithm="sequential",indirect=NULL, networkEffects=FALSE, weightPrior=NULL, viralOpt=FALSE,weights=1){
+
   ### Initiate parameters
   if (!is.matrix(A)){stop("A must be a matrix")}
   n<-dim(A)[1] # How many experimental units
@@ -28,11 +29,11 @@ gridSearch<-function(A,p,isoSearch=FALSE, blockList=NULL, ignoreLastNode=FALSE, 
   numEval<-0 # How many designs we have evaluated
   numFunEval <- 0 # How many times we evaluated the information matrix
 
-  if (b>0) { # If we have block des
+  ### If we have block design, add nodes to the network to represent effect of blocks
+  if (b>0) {
     specialNodes<-c((p+1):(p+b))
     } else   {specialNodes<-NULL}
-
-  ## Make a copy of A, and expand, then add block structure to network
+  # Make a copy of A, and expand, then add block structure to network
   B<-matrix(0,ncol=(n+b),nrow=(n+b))
   B[1:n,1:n]<-A
   if (b>0){ #Assign nodes linked to blocks
@@ -43,8 +44,8 @@ gridSearch<-function(A,p,isoSearch=FALSE, blockList=NULL, ignoreLastNode=FALSE, 
   }
   A<-B
 
-  # Do we want network effects in the model
 
+  ### Do we want network effects in the model
   if (is.null(indirect)){
     if (is.null(weightPrior)){indirect<-TRUE} else {indirect<-FALSE}
   }else{
@@ -53,7 +54,8 @@ gridSearch<-function(A,p,isoSearch=FALSE, blockList=NULL, ignoreLastNode=FALSE, 
 
   #### Set parameters for coordinate exchange algorithm
   lastCEWin<-0
-  numCERandStarts<-10 # How many random starts we do: TODO- put in parameters
+  numCERandStarts<-10000 # How many random starts we do: TODO- put in parameters
+
 
   ### Work out isomorphisms of the network if we are using them
   z<- NULL
@@ -66,49 +68,27 @@ gridSearch<-function(A,p,isoSearch=FALSE, blockList=NULL, ignoreLastNode=FALSE, 
     z[[1]]<-rep(1:(n+b))
     numIso<-1
   }
-
-  #zReduced<-lapply(z, function(z) utils::head(z, n+b))
   zUnlist<-matrix(unlist(z),ncol=(n+b),byrow = TRUE)
 
 
 
-  ### Test whether a design is valid- this is slightly faster but less robust.
-  # mult<-NULL
-  # # TODO n or n+b below
-  # for (i in (1:(n+b))){
-  #   mult[i]<-p^((n+b)-i) #Todo: change for really big p
-  # }
-
-  # testValidDesign<-function(td){
-  #   x<-(match(c(1:p),td))
-  #   if (anyNA(x)){return(FALSE)}
-  #   if ((all(sort(x)==x))==FALSE){return(FALSE)} # Check whether design has elements 1:p with first
-  #   # occurrence of k occurring before first occurrence of k+1
-  #   tdm<-sum(td*mult)
-  #   if (isoSearch==TRUE){
-  #   for (i in (2:numIso)){
-  #     if(tdm>sum(td[zUnlist[i,]]*mult)){return(FALSE)}  # Check whether design is  first in lexicographic order
-  #   }
-  #   }
-  #   return(TRUE)
-  # }
-
- # Test whether a design is valid
+ ### Test whether a design is valid- whether there is symmetry in labels or symmetry in networks
   mult2<-(2^(c((n+b):1)))
  testValidDesign<-function(td){
   if (!is.null(weightPrior)){return(TRUE)} # if we have a prior on treatments, any design can be optimal. TODO- could be improved
   x<-(match(c(1:p),td))
   if (anyNA(x)){return(FALSE)}
-  if ((all(sort(x)==x))==FALSE){return(FALSE)} # Check whether design has elements 1:p with first
+  if (p==2){if (td[1]==2){return(FALSE)}}
+    else{ if ((all(sort(x)==x))==FALSE){return(FALSE)} # Check whether design has elements 1:p with first
+        }
     for (i in (1:numIso)){
     if (sum(sign(td[zUnlist[i,]]-td)*mult2)<0){return(FALSE)}
     }
   return(TRUE)
 }
 
-  # Pick a starting design. Initiate the design so that 1s on all real nodes, and each block
-  # gets a special treatment
-
+  ### Pick a starting design. Initiate the design so that 1s on all real nodes, and each block
+  ### gets a special treatment
   if (b>0){testDesign<-c(rep(1,n),c((p+1):(p+b)))} else {testDesign<-c(rep(1,n))}
 
   # For the CE or exchange algorithm, pick a random starting design instead
@@ -116,12 +96,10 @@ gridSearch<-function(A,p,isoSearch=FALSE, blockList=NULL, ignoreLastNode=FALSE, 
   AOptTest<-testDesign
   if (b>0){testDesign<-c(testDesign,c((p+1):(p+b)))}
   }
-
   oldDesign<-testDesign # For exchange algorithm
 
   ##### This section now defines what we want to estimate, and what we assume to be zero in the model.
   ##### TODO: Could probably be simplified
-
   optVars<-c(2:(p+1)) # By default estimate the treatment effects
 
   # For block designs, we generally set the treatment effect of the last treatment to zero, and
@@ -143,11 +121,18 @@ gridSearch<-function(A,p,isoSearch=FALSE, blockList=NULL, ignoreLastNode=FALSE, 
   if (networkEffects==TRUE){optVars=c((p+b+2):(2*p+b+1))} # If we want to estimate treatment effects, or network effects.
 
   if (!is.null(weightPrior)){ # If we have an autoregressive component
-    sigmaSq<-1
+    sigmaSq<-1 # Assume variance is 1. TODO: COuld be put in parameters
    if (indirect==FALSE){
      setToZero<-c((p+1),(p+b+2):(2*(p+b)+1))#ignore all network nodes plus last treatment
    }else{
      setToZero<-c((p+1))
+     if (!is.null(blockList)){
+     if (ignoreLastNode==FALSE){ # For Blocked designs
+       setToZero<-c((p+1):(2*p+b+1))
+     }else{
+       setToZero<-c((p+1):(2*p+b+1),2*p+2*b+1) # For doubly blocked designs, last block is zero
+     }
+}
    }
     numParam<-2*p+2*b+2
     if (viralOpt==TRUE){ # Do we want to estimate the viral parameter itself...
@@ -158,12 +143,6 @@ gridSearch<-function(A,p,isoSearch=FALSE, blockList=NULL, ignoreLastNode=FALSE, 
     numParam<-2*p+2*b+1  }
 
 
-# cat(setToZero)
-# cat(":")
-# cat(optVars)
-# cat(":")
-# cat(numParam)
-
 ### We now need to rewrite optVars to take account of those we set to zero,
 ### i.e. if we want the second and 4th variable, and 3rd is set to zero,
 ### We want the second and 3rd of the non-zero variables
@@ -173,7 +152,7 @@ gridSearch<-function(A,p,isoSearch=FALSE, blockList=NULL, ignoreLastNode=FALSE, 
   newOptVars<-(1:length(binVars))[as.logical(binVars)]
 
 
-### Now the main loop- keep going until we stop at some point
+### Now the main loop- keep going until we stop at some stopCriterion
   stopCriterion<-FALSE
   while (stopCriterion==FALSE){
     if  (testValidDesign(testDesign[1:(n+b)])){
@@ -193,7 +172,7 @@ gridSearch<-function(A,p,isoSearch=FALSE, blockList=NULL, ignoreLastNode=FALSE, 
       }else{ # calculate information matrix with a viral parameter
       if (length(weights)>1){thetaPrior<-weightPrior[i,]}else{thetaPrior<-weightPrior} # Must be a clever way to do this in R
         K<-solve((diag(n+b)-thetaPrior[2*p+2*b+2]*t(A)))
-        infMatrix<-informationMatViral(A=A,X=testWeight,thetaPrior=thetaPrior,K=K) #
+        infMatrix<-informationMatViral(A=A,X=testWeight,thetaPrior=thetaPrior,Kh=K) #
       }
 
 
@@ -201,7 +180,7 @@ gridSearch<-function(A,p,isoSearch=FALSE, blockList=NULL, ignoreLastNode=FALSE, 
 
       if ((determinant(infMatrix)$modulus)>-10){ # If the matrix is invertible
         ## Various different ways to get inverse of information matrix, but as it is positive definite the Cholesky Decomposition
-        ## Seems about 10% faster.
+        ## Cholesky decomposition seems about 10% faster.
         #invInfMatrix<-solve(infMatrix,tol=1e-21)
         #invInfMatrix<-pd.solve(infMatrix)
         invInfMatrix<-chol2inv(chol(infMatrix))
@@ -234,17 +213,14 @@ gridSearch<-function(A,p,isoSearch=FALSE, blockList=NULL, ignoreLastNode=FALSE, 
       AOptDesign<-testWeight
       AOptTest<-testDesign
       lastCEWin<-numEval
-
     }
-
     numFunEval<-numFunEval+1
   }# End evaluate if a valid design
-
   numEval<-numEval+1 # Counter for CE Algorithm
 
-    ### Now pick the next design
-    if ((algorithm=="sequential") | (algorithm=="random")){
-     testDesign<-c(nextDesign(testDesign[1:n],p,algorithm=algorithm,par=numEval))
+  ### Now pick the next design
+   if ((algorithm=="sequential") | (algorithm=="random")){
+       testDesign<-c(nextDesign(testDesign[1:n],p,algorithm=algorithm,par=numEval))
      }
 
      if (algorithm=="CE") {
@@ -262,7 +238,7 @@ gridSearch<-function(A,p,isoSearch=FALSE, blockList=NULL, ignoreLastNode=FALSE, 
       }
       }else{
         testDesign<-oldDesign # revert to the previous design
-        if (runif(1)<0.001){
+        if (runif(1)<0.001){ # Start again with small probability to avoid getting stuck. TODO: Allow this parameter to change
         testDesign<-sort(c(1:p,nextDesign(testDesign[1:(n-p)], p ,algorithm="random"),specialNodes))
         }
         }
@@ -276,11 +252,9 @@ gridSearch<-function(A,p,isoSearch=FALSE, blockList=NULL, ignoreLastNode=FALSE, 
     if (((algorithm=="random")|(algorithm=="exchange")) && (numEval == 10000 )){stopCriterion<-TRUE}
     if ((algorithm=="CE") && ((numEval-lastCEWin)>(n)*(p-1))){
       if (numCERandStarts>0){
-       #cat(paste(AOptVal," "))
         testDesign<-sort(c(1:p,nextDesign(testDesign[1:(n-p)], p ,algorithm="random"),specialNodes))
         numCERandStarts<-numCERandStarts-1
         lastCEWin<-numEval
-       # cat(paste(testDesign),"\n")
       }
       else{ stopCriterion<-TRUE }
     }
