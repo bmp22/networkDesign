@@ -6,7 +6,7 @@ Authors@R:
            family = "Parker",
            role = c("aut", "cre"),
            email = "stats@ben-parker.co.uk",
-           comment = structure("0000-0002-6858-8336", .Names = "ORCID"))
+           comment = c("ORCID" = "0000-0002-6858-8336"))
 Description: This package implements design of experiments for networks as introduced by Parker, Ben M., Steven G. Gilmour, and John Schormans. "Optimal design of experiments on connected units with application to social networks." Journal of the Royal Statistical Society: Series C (Applied Statistics) 66.3 (2017): 455-480.).
 License: MIT + file LICENSE
 Encoding: UTF-8
